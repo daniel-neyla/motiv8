@@ -1,2 +1,2 @@
 # motiv8
-This will be an app that helps people to stay motivated to their daily tasks by using a social media approach where users can hold each other accountable. However, unlike social media this app is focused on growth and realness.
+Motiv8 is an app designed to help people stay committed to their daily tasks through a supportive social platform. Unlike traditional social media, Motiv8 focuses on personal growth, accountability, and authenticity — creating a judgment-free space where users motivate each other to make real progress every day.
