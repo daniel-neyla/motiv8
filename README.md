@@ -48,6 +48,7 @@ Future plans include:
 - AI moderation for safety
 - User-submitted motivational content libraries
 - A supporter funding model (no ads, no selling data)
+- Company Integration
 
 ---
 
