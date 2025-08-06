@@ -6,7 +6,7 @@ Unlike traditional social media, Motiv8 is built for **growth**, not comparison 
 - Share their tasks, goals, and daily habits
 - Join others on shared routines (e.g. workouts, cooking, studying)
 - Hold each other accountable
-- Support each other using positive messages
+- Support each other using encouraging messages
 - Learn from one another’s journeys, not their highlight reels
 
 ---
