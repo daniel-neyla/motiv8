@@ -30,25 +30,78 @@ We are building toward an MVP (Minimum Viable Product) focused on **task sharing
 
 ---
 
-## 🧪 MVP Feature Set
+## 🚀 Rollout Plan
 
-- ✅ Create tasks/routines with tag, time and optional location
-- ✅ Mark tasks as done (optionally add a completion photo)
-- ✅ Share what you're listening to while doing tasks
-- ✅ Choose whether your task is private or public
-- ✅ Join or request to join tasks created by others that are public
-- ✅ Community groups (e.g. “Runners”, “Readers”, “Meal Preppers”)
-- ✅ Request to message another user (no open DMs)
-- ✅ Discover books, podcasts, and habits from others
-- ✅ No comment sections, no likes, no judgment
-- ✅ Strict community guidelines for positivity only
-- ✅ Gentle Reminder Notifications
+Motiv8 is built **intentionally and in phases**, prioritizing clarity, depth, and human-centered design over feature volume or engagement tactics.
 
-Future plans include:
-- AI moderation for safety
-- User-submitted motivational content libraries
-- A supporter funding model (no ads, no selling data)
-- Company Integration
+---
+
+### **Phase 1 — Foundation (MVP)**
+**Focus:** Daily direction & personal consistency  
+
+- 📅 **Today View**  
+  - Direction reminder (goals, habits, values)  
+  - Frictionless task execution  
+  - End-of-day closing ritual (summary, reflection, mood)
+- 🌱 **Growth Space**  
+  - Goals as paths with milestones  
+  - Habit & streak tracking  
+  - Routines as repeatable systems
+- ➕ **Add Action Flow**  
+  - Quick creation of tasks, habits, routines  
+  - Everything linkable to goals
+- 🧾 **Personal insights**  
+  - Reflection history  
+  - Consistency indicators  
+  - No comparison, no feeds
+
+**Goal:** Help users feel grounded, intentional, and in control of *today*.
+
+---
+
+### **Phase 2 — Reflection Intelligence (Opt-in)**
+**Focus:** Understanding patterns & improving systems  
+
+- Weekly & monthly insights
+- Habit, mood, and energy pattern detection
+- Gentle system improvement suggestions
+- Optional AI guidance (private, non-comparative)
+
+**Goal:** Turn awareness into understanding — without pressure.
+
+---
+
+### **Phase 3 — Community & Inspiration**
+**Focus:** Motivation through shared growth  
+
+- Community feed (shared routines, joinable tasks, systems)
+- Encouragement over reactions
+- No rankings or performance comparison
+
+**Goal:** Inspire and support — never compete.
+
+---
+
+### **Phase 4 — Profiles as Personal Paths**
+**Focus:** Identity, story, direction  
+
+- Path-based profiles (journey over achievements)
+- Shared systems, values, and reflections
+- No public follower metrics
+
+**Goal:** Connection through authenticity.
+
+---
+
+### **Phase 5 — Sustainability**
+**Focus:** Long-term health  
+
+- Supporter-based funding (no ads, no data selling)
+- Open-source contributions
+- Ethical moderation & integrations
+
+**Guiding principle:**  
+Motiv8 grows only when growth adds meaning.
 
 ---
 
