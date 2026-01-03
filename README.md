@@ -47,13 +47,10 @@ Motiv8 is built **intentionally and in phases**, prioritizing clarity, depth, an
   - Goals as paths with milestones  
   - Habit & streak tracking  
   - Routines as repeatable systems
+  - Personal growth insights
 - ➕ **Add Action Flow**  
   - Quick creation of tasks, habits, routines  
   - Everything linkable to goals
-- 🧾 **Personal insights**  
-  - Reflection history  
-  - Consistency indicators  
-  - No comparison, no feeds
 
 **Goal:** Help users feel grounded, intentional, and in control of *today*.
 
