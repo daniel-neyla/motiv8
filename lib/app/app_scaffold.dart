@@ -13,7 +13,7 @@ class AppScaffold extends StatelessWidget {
         title: Text('Motiv8', style: Theme.of(context).textTheme.titleLarge),
         centerTitle: false,
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-        elevation: 0,
+        elevation: 1,
       ),
       body: body,
       floatingActionButton: Padding(
