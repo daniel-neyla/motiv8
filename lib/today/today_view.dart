@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../app/app_scaffold.dart';
+import 'greeting_message.dart';
 import 'direction_reminder.dart';
 import 'goal.dart';
 
@@ -12,7 +13,9 @@ class TodayView extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, kToolbarHeight + 16, 16, 16),
         children: const [
-          SizedBox(height: 36),
+          SizedBox(height: 64),
+          GreetingMessage(),
+          SizedBox(height: 12),
           DirectionReminder(
             goals: [
               Goal('Finish the project report', 'Work'),
@@ -20,7 +23,7 @@ class TodayView extends StatelessWidget {
               Goal('Read 20 pages of a book', 'Personal Growth'),
             ],
           ),
-          SizedBox(height: 36),
+          SizedBox(height: 12),
         ],
       ),
     );
