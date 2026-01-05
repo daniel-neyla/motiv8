@@ -45,7 +45,7 @@ class GreetingMessage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '${_getGreeeting()}, Daniel ${_getEmoji()}',
+          '${_getGreeeting()}, Daniel. ${_getEmoji()}',
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         const SizedBox(height: 4),

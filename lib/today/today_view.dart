@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../app/app_scaffold.dart';
 import 'greeting_message.dart';
 import 'direction_reminder.dart';
+import 'tasks_section.dart';
 import 'goal.dart';
 
 class TodayView extends StatelessWidget {
@@ -18,12 +19,22 @@ class TodayView extends StatelessWidget {
           SizedBox(height: 12),
           DirectionReminder(
             goals: [
-              Goal('Finish the project report', 'Work'),
-              Goal('Go for a 30-minute run', 'Health'),
-              Goal('Read 20 pages of a book', 'Personal Growth'),
+              Goal(
+                'Build Motiv8',
+                'To create a system that helps me grow without pressure.',
+              ),
+              Goal(
+                'Exercise regularly',
+                'To improve my physical and mental health.',
+              ),
+              Goal(
+                'Read more books',
+                'To expand my knowledge and perspective.',
+              ),
             ],
           ),
           SizedBox(height: 12),
+          TasksSection(),
         ],
       ),
     );
