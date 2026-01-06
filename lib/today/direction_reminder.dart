@@ -16,10 +16,18 @@ class DirectionReminder extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(10),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: ClipRRect(
         clipBehavior: Clip.hardEdge,
         borderRadius: BorderRadius.circular(20),
+
         child: Stack(
           children: [
             Positioned(

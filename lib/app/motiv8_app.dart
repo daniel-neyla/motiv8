@@ -20,6 +20,7 @@ class Motiv8App extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: motiv8Teal,
           brightness: Brightness.light,
+          surface: Color.fromARGB(255, 240, 240, 240),
         ),
       ),
       home: const TodayView(),

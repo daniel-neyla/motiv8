@@ -32,7 +32,7 @@ class _TodayViewState extends State<TodayView> {
       if (offset <= fadeStart) {
         opacity = 1.0;
       } else if (offset >= fadeEnd) {
-        opacity = 0.2;
+        opacity = 0.1;
       } else {
         opacity = 1 - (offset - fadeStart) / (fadeEnd - fadeStart);
       }
@@ -68,14 +68,17 @@ class _TodayViewState extends State<TodayView> {
                   child: DirectionReminder(
                     goals: [
                       Goal(
+                        '1',
                         'Build Motiv8',
                         'To create a system that helps me grow without pressure.',
                       ),
                       Goal(
+                        '2',
                         'Exercise regularly',
                         'To improve my physical and mental health.',
                       ),
                       Goal(
+                        '3',
                         'Read more books',
                         'To expand my knowledge and perspective.',
                       ),

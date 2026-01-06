@@ -7,12 +7,14 @@ class AppScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
+      backgroundColor: colorScheme.surface,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text('Motiv8', style: Theme.of(context).textTheme.titleLarge),
         centerTitle: false,
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+        backgroundColor: colorScheme.surfaceContainer,
         elevation: 1,
       ),
       body: body,
@@ -31,6 +33,7 @@ class AppScaffold extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
       bottomNavigationBar: NavigationBar(
+        elevation: 1,
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
         selectedIndex: 0,
         destinations: const [
