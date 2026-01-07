@@ -19,7 +19,9 @@ class TasksSection extends StatelessWidget {
         Opacity(
           opacity: 0.6,
           child: Text(
-            'To Do · 2',
+            tasks.every((task) => task.completed)
+                ? 'All done for today! 🎉'
+                : 'To Do · (${tasks.where((task) => !task.completed).length} left)',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),

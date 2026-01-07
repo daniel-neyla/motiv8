@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../app/app_scaffold.dart';
 import 'greeting_message.dart';
 import 'direction_reminder.dart';
-import 'tasks_section.dart';
-import 'goal.dart';
-import 'task.dart';
+import 'task_section/tasks_section.dart';
+import '../models/goal.dart';
+import '../models/task.dart';
 
 class TodayView extends StatefulWidget {
   const TodayView({super.key});

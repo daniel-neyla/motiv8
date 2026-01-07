@@ -75,7 +75,7 @@ class _DayPhaseSectionState extends State<DayPhaseSection> {
                     Text(widget.emoji),
                     const SizedBox(width: 12),
                     Text(
-                      '${widget.title} · 2/4',
+                      '${widget.title} · ${widget.tasks.where((task) => task.completed).length}/${widget.tasks.length}',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: isActive
