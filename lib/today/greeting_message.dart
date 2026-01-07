@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import '../../utils/day_phase.dart';
 
 class GreetingMessage extends StatelessWidget {
   const GreetingMessage({super.key});
 
   String _getGreeeting() {
-    final hour = DateTime.now().hour;
-    if (hour < 12) return 'Good morning';
-    if (hour < 18) return 'Good afternoon';
-    return 'Good evening';
+    DayPhase currentPhase = getCurrentDayPhase(DateTime.now());
+    if (currentPhase == DayPhase.morning) return 'Good morning';
+    if (currentPhase == DayPhase.afternoon) return 'Good afternoon';
+    if (currentPhase == DayPhase.evening) return 'Good evening';
+    return 'Good night';
   }
 
   String _getWeekday() {

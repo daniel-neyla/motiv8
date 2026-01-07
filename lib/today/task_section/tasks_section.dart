@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'day_phase_section.dart';
-import 'task.dart';
+import '../../models/task.dart';
+import '../../utils/day_phase.dart';
 
 class TasksSection extends StatelessWidget {
   const TasksSection({
@@ -28,7 +29,7 @@ class TasksSection extends StatelessWidget {
 
         DayPhaseSection(
           title: 'Morning',
-          state: DayPhaseStates.past,
+          dayPhase: DayPhase.morning,
           emoji: '☀️',
           tasks: tasks
               .where((task) => task.dayPhase == DayPhase.morning)
@@ -37,7 +38,8 @@ class TasksSection extends StatelessWidget {
         ),
         DayPhaseSection(
           title: 'Afternoon',
-          state: DayPhaseStates.active,
+
+          dayPhase: DayPhase.afternoon,
           emoji: '🌤️',
           tasks: tasks
               .where((task) => task.dayPhase == DayPhase.afternoon)
@@ -46,8 +48,8 @@ class TasksSection extends StatelessWidget {
         ),
         DayPhaseSection(
           title: 'Evening',
-          state: DayPhaseStates.future,
           emoji: '🌙',
+          dayPhase: DayPhase.evening,
           tasks: tasks
               .where((task) => task.dayPhase == DayPhase.evening)
               .toList(),

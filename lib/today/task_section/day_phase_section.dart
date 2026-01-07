@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'task_item.dart';
+import '../../utils/day_phase.dart';
 
 enum DayPhaseStates { past, active, future }
 
 class DayPhaseSection extends StatefulWidget {
   final String title;
-  final DayPhaseStates state;
+  final DayPhase dayPhase;
   final String emoji;
   final List tasks;
   // final void Function(String taskId) onToggle;
   const DayPhaseSection({
     super.key,
     required this.title,
-    required this.state,
+    required this.dayPhase,
     required this.emoji,
     required this.tasks,
     required this.onToggleTask,
@@ -26,17 +27,27 @@ class DayPhaseSection extends StatefulWidget {
 
 class _DayPhaseSectionState extends State<DayPhaseSection> {
   bool isOpen = true;
+  DayPhase currentPhase = getCurrentDayPhase(DateTime.now());
+  DayPhaseStates get state {
+    if (widget.dayPhase.index < currentPhase.index) {
+      return DayPhaseStates.past;
+    } else if (widget.dayPhase.index == currentPhase.index) {
+      return DayPhaseStates.active;
+    } else {
+      return DayPhaseStates.future;
+    }
+  }
 
   @override
   initState() {
     super.initState();
-    isOpen = widget.state != DayPhaseStates.past;
+    isOpen = state != DayPhaseStates.past;
   }
 
   @override
   Widget build(BuildContext context) {
-    final isPast = widget.state == DayPhaseStates.past;
-    final isActive = widget.state == DayPhaseStates.active;
+    final isPast = state == DayPhaseStates.past;
+    final isActive = state == DayPhaseStates.active;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),

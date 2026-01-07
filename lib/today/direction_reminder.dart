@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'goal.dart';
+import '../models/goal.dart';
 
 class DirectionReminder extends StatelessWidget {
   final List<Goal> goals;

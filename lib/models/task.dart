@@ -1,4 +1,4 @@
-enum DayPhase { morning, afternoon, evening }
+import '../utils/day_phase.dart';
 
 class Task {
   final String id;
