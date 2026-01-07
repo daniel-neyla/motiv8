@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
+import 'task.dart';
 
 class TaskItem extends StatelessWidget {
-  final String title;
-  final bool completed;
-  final String id;
-  final void Function(String taskId) onToggle;
-
   const TaskItem({
     super.key,
-    required this.title,
-    this.completed = false,
-
-    required this.id,
+    required this.task,
     required this.onToggle,
+
+    // required this.onToggle,
   });
+  final Task task;
+  final void Function(String) onToggle;
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +36,16 @@ class TaskItem extends StatelessWidget {
         child: Row(
           children: [
             IconButton(
-              onPressed: () => onToggle(id),
+              onPressed: () {
+                onToggle(task.id);
+              },
 
               icon: Icon(
-                completed ? Icons.check_circle : Icons.radio_button_unchecked,
+                task.completed
+                    ? Icons.check_circle
+                    : Icons.radio_button_unchecked,
                 size: 24,
-                color: completed
+                color: task.completed
                     ? colorScheme.primary
                     : colorScheme.onSurface.withAlpha(120),
               ),
@@ -52,11 +53,13 @@ class TaskItem extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                title,
+                task.title,
                 style: TextStyle(
                   fontSize: 15,
-                  decoration: completed ? TextDecoration.lineThrough : null,
-                  color: completed
+                  decoration: task.completed
+                      ? TextDecoration.lineThrough
+                      : null,
+                  color: task.completed
                       ? colorScheme.onSurface.withAlpha(120)
                       : colorScheme.onSurface,
                 ),

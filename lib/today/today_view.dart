@@ -4,6 +4,7 @@ import 'greeting_message.dart';
 import 'direction_reminder.dart';
 import 'tasks_section.dart';
 import 'goal.dart';
+import 'task.dart';
 
 class TodayView extends StatefulWidget {
   const TodayView({super.key});
@@ -15,6 +16,41 @@ class TodayView extends StatefulWidget {
 class _TodayViewState extends State<TodayView> {
   final ScrollController _scrollController = ScrollController();
   double _directionOpacity = 1.0;
+  List<Goal> goals = [
+    Goal(
+      '1',
+      'Build Motiv8',
+      'To create a system that helps me grow without pressure.',
+    ),
+    Goal(
+      '2',
+      'Exercise regularly',
+      'To improve my physical and mental health.',
+    ),
+    Goal('3', 'Read more books', 'To expand my knowledge and perspective.'),
+  ];
+
+  List<Task> tasks = [
+    Task(id: '1', title: 'Meditate', completed: true),
+    Task(id: '2', title: 'Read', completed: false),
+    Task(id: '3', title: 'Exercise', completed: false),
+    Task(id: '4', title: 'Journal', completed: true),
+  ];
+
+  void toggleTask(String taskId) {
+    setState(() {
+      tasks = tasks.map((task) {
+        if (task.id == taskId) {
+          return Task(
+            id: task.id,
+            title: task.title,
+            completed: !task.completed,
+          );
+        }
+        return task;
+      }).toList();
+    });
+  }
 
   @override
   void initState() {
@@ -65,29 +101,13 @@ class _TodayViewState extends State<TodayView> {
                 child: AnimatedOpacity(
                   duration: Duration(milliseconds: 200),
                   opacity: _directionOpacity,
-                  child: DirectionReminder(
-                    goals: [
-                      Goal(
-                        '1',
-                        'Build Motiv8',
-                        'To create a system that helps me grow without pressure.',
-                      ),
-                      Goal(
-                        '2',
-                        'Exercise regularly',
-                        'To improve my physical and mental health.',
-                      ),
-                      Goal(
-                        '3',
-                        'Read more books',
-                        'To expand my knowledge and perspective.',
-                      ),
-                    ],
-                  ),
+                  child: DirectionReminder(goals: goals),
                 ),
               ),
               SliverToBoxAdapter(child: SizedBox(height: 12)),
-              SliverToBoxAdapter(child: TasksSection()),
+              SliverToBoxAdapter(
+                child: TasksSection(tasks: tasks, onToggleTask: toggleTask),
+              ),
             ],
           ),
         ),

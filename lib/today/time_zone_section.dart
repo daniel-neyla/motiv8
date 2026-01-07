@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'task_item.dart';
-import 'task.dart';
 
 enum TimeZoneStates { past, active, future }
 
@@ -8,13 +7,18 @@ class TimeZoneSection extends StatefulWidget {
   final String title;
   final TimeZoneStates state;
   final String emoji;
-
+  final List tasks;
+  // final void Function(String taskId) onToggle;
   const TimeZoneSection({
     super.key,
     required this.title,
     required this.state,
     required this.emoji,
+    required this.tasks,
+    required this.onToggleTask,
   });
+
+  final void Function(String) onToggleTask;
 
   @override
   State<TimeZoneSection> createState() => _TimeZoneSectionState();
@@ -23,12 +27,6 @@ class TimeZoneSection extends StatefulWidget {
 class _TimeZoneSectionState extends State<TimeZoneSection> {
   bool isOpen = true;
 
-  List<Task> tasks = [
-    Task(id: '1', title: 'Meditate', completed: true),
-    Task(id: '2', title: 'Read', completed: false),
-    Task(id: '3', title: 'Exercise', completed: false),
-    Task(id: '4', title: 'Journal', completed: true),
-  ];
   @override
   initState() {
     super.initState();
@@ -98,36 +96,21 @@ class _TimeZoneSectionState extends State<TimeZoneSection> {
           ),
           SizedBox(height: isOpen ? 12 : 0),
           if (isOpen)
-            if (tasks.isNotEmpty)
+            if (widget.tasks.isNotEmpty)
               ListView.separated(
                 padding: const EdgeInsets.only(left: 24),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
                   return TaskItem(
-                    title: tasks[index].title,
-                    completed: tasks[index].completed,
-                    id: tasks[index].id,
-                    onToggle: (String taskId) {
-                      setState(() {
-                        final taskIndex = tasks.indexWhere(
-                          (task) => task.id == taskId,
-                        );
-                        if (taskIndex != -1) {
-                          tasks[taskIndex] = Task(
-                            id: tasks[taskIndex].id,
-                            title: tasks[taskIndex].title,
-                            completed: !tasks[taskIndex].completed,
-                          );
-                        }
-                      });
-                    },
+                    task: widget.tasks[index],
+                    onToggle: widget.onToggleTask,
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {
                   return const SizedBox(height: 6);
                 },
-                itemCount: tasks.length,
+                itemCount: widget.tasks.length,
               )
             else
               Padding(
