@@ -31,10 +31,30 @@ class _TodayViewState extends State<TodayView> {
   ];
 
   List<Task> tasks = [
-    Task(id: '1', title: 'Meditate', completed: true),
-    Task(id: '2', title: 'Read', completed: false),
-    Task(id: '3', title: 'Exercise', completed: false),
-    Task(id: '4', title: 'Journal', completed: true),
+    Task(
+      id: '1',
+      title: 'Meditate',
+      completed: true,
+      dayPhase: DayPhase.morning,
+    ),
+    Task(
+      id: '2',
+      title: 'Read',
+      completed: false,
+      dayPhase: DayPhase.afternoon,
+    ),
+    Task(
+      id: '3',
+      title: 'Exercise',
+      completed: false,
+      dayPhase: DayPhase.afternoon,
+    ),
+    Task(
+      id: '4',
+      title: 'Journal',
+      completed: true,
+      dayPhase: DayPhase.evening,
+    ),
   ];
 
   void toggleTask(String taskId) {
@@ -45,6 +65,7 @@ class _TodayViewState extends State<TodayView> {
             id: task.id,
             title: task.title,
             completed: !task.completed,
+            dayPhase: task.dayPhase,
           );
         }
         return task;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'time_zone_section.dart';
+import 'day_phase_section.dart';
 import 'task.dart';
 
 class TasksSection extends StatelessWidget {
@@ -24,25 +24,31 @@ class TasksSection extends StatelessWidget {
           ),
         ),
 
-        TimeZoneSection(
+        DayPhaseSection(
           title: 'Morning',
-          state: TimeZoneStates.past,
+          state: DayPhaseStates.past,
           emoji: '☀️',
-          tasks: tasks,
+          tasks: tasks
+              .where((task) => task.dayPhase == DayPhase.morning)
+              .toList(),
           onToggleTask: onToggleTask,
         ),
-        TimeZoneSection(
+        DayPhaseSection(
           title: 'Afternoon',
-          state: TimeZoneStates.active,
+          state: DayPhaseStates.active,
           emoji: '🌤️',
-          tasks: tasks,
+          tasks: tasks
+              .where((task) => task.dayPhase == DayPhase.afternoon)
+              .toList(),
           onToggleTask: onToggleTask,
         ),
-        TimeZoneSection(
+        DayPhaseSection(
           title: 'Evening',
-          state: TimeZoneStates.future,
+          state: DayPhaseStates.future,
           emoji: '🌙',
-          tasks: tasks,
+          tasks: tasks
+              .where((task) => task.dayPhase == DayPhase.evening)
+              .toList(),
           onToggleTask: onToggleTask,
         ),
       ],

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'task_item.dart';
 
-enum TimeZoneStates { past, active, future }
+enum DayPhaseStates { past, active, future }
 
-class TimeZoneSection extends StatefulWidget {
+class DayPhaseSection extends StatefulWidget {
   final String title;
-  final TimeZoneStates state;
+  final DayPhaseStates state;
   final String emoji;
   final List tasks;
   // final void Function(String taskId) onToggle;
-  const TimeZoneSection({
+  const DayPhaseSection({
     super.key,
     required this.title,
     required this.state,
@@ -21,22 +21,22 @@ class TimeZoneSection extends StatefulWidget {
   final void Function(String) onToggleTask;
 
   @override
-  State<TimeZoneSection> createState() => _TimeZoneSectionState();
+  State<DayPhaseSection> createState() => _DayPhaseSectionState();
 }
 
-class _TimeZoneSectionState extends State<TimeZoneSection> {
+class _DayPhaseSectionState extends State<DayPhaseSection> {
   bool isOpen = true;
 
   @override
   initState() {
     super.initState();
-    isOpen = widget.state != TimeZoneStates.past;
+    isOpen = widget.state != DayPhaseStates.past;
   }
 
   @override
   Widget build(BuildContext context) {
-    final isPast = widget.state == TimeZoneStates.past;
-    final isActive = widget.state == TimeZoneStates.active;
+    final isPast = widget.state == DayPhaseStates.past;
+    final isActive = widget.state == DayPhaseStates.active;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
