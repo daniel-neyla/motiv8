@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'day_phase_section.dart';
 import '../../models/task.dart';
 import '../../utils/day_phase.dart';
+import 'add_task_button.dart';
 
 class TasksSection extends StatelessWidget {
   const TasksSection({
@@ -55,6 +56,9 @@ class TasksSection extends StatelessWidget {
               .toList(),
           onToggleTask: onToggleTask,
         ),
+        SizedBox(height: 16),
+        AddTaskButton(),
+        SizedBox(height: 16),
       ],
     );
   }
