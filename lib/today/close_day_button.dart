@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'close_day_overlay.dart';
 
 class CloseDayButton extends StatelessWidget {
   final double progress;
@@ -14,7 +15,7 @@ class CloseDayButton extends StatelessWidget {
           context: context,
           isScrollControlled: true,
           backgroundColor: Colors.transparent,
-          builder: (_) => const SizedBox(),
+          builder: (_) => const CloseDayOverlay(),
         );
       },
       child: Container(
@@ -29,6 +30,7 @@ class CloseDayButton extends StatelessWidget {
           ),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
               radius: 24.0,
@@ -45,7 +47,7 @@ class CloseDayButton extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Close your day',
+                    (progress < 1) ? 'Close your day' : 'Great work today!',
                     style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
                   ),
                   const SizedBox(height: 8),
