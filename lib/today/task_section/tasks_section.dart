@@ -9,8 +9,10 @@ class TasksSection extends StatelessWidget {
     super.key,
     required this.tasks,
     required this.onToggleTask,
+    required this.onSubmit,
   });
   final void Function(String) onToggleTask;
+  final void Function(String) onSubmit;
   final List<Task> tasks;
 
   @override
@@ -57,7 +59,7 @@ class TasksSection extends StatelessWidget {
           onToggleTask: onToggleTask,
         ),
         SizedBox(height: 16),
-        AddTaskButton(),
+        AddTaskButton(onSubmit: onSubmit),
         SizedBox(height: 16),
       ],
     );

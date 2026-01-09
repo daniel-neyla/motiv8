@@ -17,6 +17,12 @@ class TodayView extends StatefulWidget {
 class _TodayViewState extends State<TodayView> {
   final ScrollController _scrollController = ScrollController();
   double _directionOpacity = 1.0;
+  int taskId = 5;
+
+  int generateId() {
+    return taskId++;
+  }
+
   List<Goal> goals = [
     Goal(
       '1',
@@ -74,6 +80,19 @@ class _TodayViewState extends State<TodayView> {
     });
   }
 
+  void quickAddTask(String title) {
+    setState(() {
+      tasks.add(
+        Task(
+          id: generateId().toString(),
+          title: title,
+          completed: false,
+          dayPhase: getCurrentDayPhase(DateTime.now()),
+        ),
+      );
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -109,6 +128,16 @@ class _TodayViewState extends State<TodayView> {
 
   @override
   Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: taskSection(),
+    );
+  }
+
+  Widget taskSection() {
     return AppScaffold(
       body: SafeArea(
         child: Padding(
@@ -128,7 +157,11 @@ class _TodayViewState extends State<TodayView> {
               ),
               SliverToBoxAdapter(child: SizedBox(height: 12)),
               SliverToBoxAdapter(
-                child: TasksSection(tasks: tasks, onToggleTask: toggleTask),
+                child: TasksSection(
+                  tasks: tasks,
+                  onToggleTask: toggleTask,
+                  onSubmit: quickAddTask,
+                ),
               ),
             ],
           ),

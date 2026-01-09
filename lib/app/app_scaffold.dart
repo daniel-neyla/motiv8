@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'bottom_nav_bar.dart';
 
 class AppScaffold extends StatelessWidget {
   final Widget body;
@@ -14,34 +15,20 @@ class AppScaffold extends StatelessWidget {
       appBar: AppBar(
         title: Text('Motiv8', style: Theme.of(context).textTheme.titleLarge),
         centerTitle: false,
-        backgroundColor: colorScheme.surfaceContainer,
+        backgroundColor: Colors.white,
         elevation: 1,
-      ),
-      body: body,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(top: 36),
-        child: FloatingActionButton(
-          onPressed: () {
-            print('FAB pressed');
-          },
-          elevation: 4,
-          shape: CircleBorder(),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          child: const Icon(Icons.add, size: 28, color: Colors.white),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Divider(
+            height: 1,
+            thickness: 1,
+            color: Theme.of(context).colorScheme.outlineVariant,
+          ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      body: body,
 
-      bottomNavigationBar: NavigationBar(
-        elevation: 1,
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-        selectedIndex: 0,
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.today), label: 'Today'),
-          NavigationDestination(icon: SizedBox.shrink(), label: ''),
-          NavigationDestination(icon: Icon(Icons.eco), label: 'Growth'),
-        ],
-      ),
+      bottomNavigationBar: BottomNavBar(onAdd: () {}),
     );
   }
 }
