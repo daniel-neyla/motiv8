@@ -6,6 +6,7 @@ import 'task_section/tasks_section.dart';
 import '../models/goal.dart';
 import '../models/task.dart';
 import '../utils/day_phase.dart';
+import 'close_day_button.dart';
 
 class TodayView extends StatefulWidget {
   const TodayView({super.key});
@@ -161,6 +162,13 @@ class _TodayViewState extends State<TodayView> {
                   tasks: tasks,
                   onToggleTask: toggleTask,
                   onSubmit: quickAddTask,
+                ),
+              ),
+
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(vertical: 24.0),
+                sliver: SliverToBoxAdapter(
+                  child: CloseDayButton(progress: 0.8),
                 ),
               ),
             ],
