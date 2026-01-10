@@ -169,9 +169,8 @@ class _TodayViewState extends State<TodayView> {
                 padding: const EdgeInsets.symmetric(vertical: 24.0),
                 sliver: SliverToBoxAdapter(
                   child: CloseDayButton(
-                    progress:
-                        tasks.where((task) => task.completed).length /
-                        tasks.length,
+                    tasksComplete: tasks.where((task) => task.completed).length,
+                    numOfTasks: tasks.length,
                   ),
                 ),
               ),

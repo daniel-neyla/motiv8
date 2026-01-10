@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
-import 'close_day_overlay.dart';
+import 'close_day/close_day_overlay.dart';
 
 class CloseDayButton extends StatelessWidget {
-  final double progress;
+  final int tasksComplete;
+  final int numOfTasks;
 
-  const CloseDayButton({super.key, required this.progress});
+  const CloseDayButton({
+    super.key,
+    required this.tasksComplete,
+    required this.numOfTasks,
+  });
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final double progress = tasksComplete / numOfTasks;
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
           backgroundColor: Colors.transparent,
-          builder: (_) => const CloseDayOverlay(),
+          builder: (_) => CloseDayOverlay(),
         );
       },
       child: Container(
@@ -41,16 +47,26 @@ class CloseDayButton extends StatelessWidget {
                 size: 28,
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 18),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    (progress < 1) ? 'Close your day' : 'Great work today!',
+                    (progress < 1) ? 'Ready to wrap up?' : 'Great work today',
                     style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
                   ),
-                  const SizedBox(height: 8),
+
+                  Text(
+                    (progress < 1)
+                        ? "${numOfTasks - tasksComplete} task remaining · That's okay!"
+                        : 'All tasks complete!',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: colorScheme.onSurface.withAlpha(150),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
                   LinearProgressIndicator(
                     value: progress,
                     minHeight: 6,
