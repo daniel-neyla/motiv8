@@ -12,4 +12,18 @@ class Task {
     required this.completed,
     required this.dayPhase,
   });
+
+  Task copyWith({
+    String? id,
+    String? title,
+    bool? completed,
+    DayPhase? dayPhase,
+  }) {
+    return Task(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      completed: completed ?? this.completed,
+      dayPhase: dayPhase ?? this.dayPhase,
+    );
+  }
 }

@@ -6,10 +6,12 @@ class TaskItem extends StatelessWidget {
     super.key,
     required this.task,
     required this.onToggle,
+    required this.isEditing,
 
     // required this.onToggle,
   });
   final Task task;
+  final bool isEditing;
   final void Function(String) onToggle;
 
   @override
@@ -37,7 +39,9 @@ class TaskItem extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {
-                onToggle(task.id);
+                if (!isEditing) {
+                  onToggle(task.id);
+                }
               },
 
               icon: Icon(
