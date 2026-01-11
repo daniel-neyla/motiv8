@@ -125,8 +125,12 @@ class _AddTaskButtonState extends State<AddTaskButton> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
           decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: Theme.of(context).colorScheme.outlineVariant,
+            ),
             color: Theme.of(context).colorScheme.surface,
           ),
           child: Row(
@@ -138,10 +142,27 @@ class _AddTaskButtonState extends State<AddTaskButton> {
                   decoration: const InputDecoration(
                     hintText: 'Add a task...',
                     border: InputBorder.none,
+                    isDense: true,
                   ),
                   onSubmitted: (_) => _submit(),
                 ),
               ),
+
+              // Dismiss button
+              IconButton(
+                icon: Icon(
+                  Icons.close,
+                  size: 20,
+                  color: Theme.of(context).colorScheme.outline,
+                ),
+                onPressed: () {
+                  _controller.clear();
+                  _focusNode.unfocus();
+                  // onDismiss?.call(); // optional
+                },
+              ),
+
+              // Confirm button
               IconButton(
                 icon: Icon(
                   Icons.check,

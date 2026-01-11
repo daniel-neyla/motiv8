@@ -73,7 +73,7 @@ class _TodayViewState extends State<TodayView> {
     setState(() {
       tasks = tasks.map((task) {
         if (task.id == taskId) {
-          task.copyWith(completed: !task.completed);
+          return task.copyWith(completed: !task.completed);
         }
         return task;
       }).toList();
