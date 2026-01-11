@@ -39,7 +39,11 @@ class _MoodBoardState extends State<MoodBoard> {
             return GestureDetector(
               onTap: () {
                 setState(() {
-                  selectedIndex = index;
+                  if (selectedIndex == index) {
+                    selectedIndex = null;
+                  } else {
+                    selectedIndex = index;
+                  }
                 });
               },
               child: AnimatedContainer(
@@ -70,16 +74,20 @@ class _MoodBoardState extends State<MoodBoard> {
           }),
         ),
         SizedBox(height: 24),
-        TextButton.icon(
-          label: Text("Skip if you'd rather not"),
-          icon: Icon(Icons.close),
-          onPressed: () {},
-          style: ButtonStyle(
-            foregroundColor: WidgetStateProperty.all(
-              colorScheme.onSurface.withAlpha(150),
-            ),
-          ),
+        Text(
+          "Skip if you'd rather not",
+          style: TextStyle(color: colorScheme.onSurface.withAlpha(150)),
         ),
+        // TextButton.icon(
+        //   label: Text("Skip if you'd rather not"),
+        //   icon: Icon(Icons.close),
+        //   onPressed: () {},
+        //   style: ButtonStyle(
+        //     foregroundColor: WidgetStateProperty.all(
+        //       colorScheme.onSurface.withAlpha(150),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
