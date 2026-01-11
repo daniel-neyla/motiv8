@@ -44,24 +44,28 @@ class _TodayViewState extends State<TodayView> {
       title: 'Meditate',
       completed: true,
       dayPhase: DayPhase.morning,
+      order: 1,
     ),
     Task(
       id: '2',
       title: 'Read',
       completed: false,
       dayPhase: DayPhase.afternoon,
+      order: 2,
     ),
     Task(
       id: '3',
       title: 'Exercise',
       completed: false,
       dayPhase: DayPhase.afternoon,
+      order: 1,
     ),
     Task(
       id: '4',
       title: 'Journal',
       completed: true,
       dayPhase: DayPhase.evening,
+      order: 1,
     ),
   ];
 
@@ -69,12 +73,7 @@ class _TodayViewState extends State<TodayView> {
     setState(() {
       tasks = tasks.map((task) {
         if (task.id == taskId) {
-          return Task(
-            id: task.id,
-            title: task.title,
-            completed: !task.completed,
-            dayPhase: task.dayPhase,
-          );
+          task.copyWith(completed: !task.completed);
         }
         return task;
       }).toList();
@@ -83,12 +82,14 @@ class _TodayViewState extends State<TodayView> {
 
   void quickAddTask(String title) {
     setState(() {
+      final DayPhase currentDayPhase = getCurrentDayPhase(DateTime.now());
       tasks.add(
         Task(
           id: generateId().toString(),
           title: title,
           completed: false,
-          dayPhase: getCurrentDayPhase(DateTime.now()),
+          dayPhase: currentDayPhase,
+          order: tasks.where((t) => t.dayPhase == currentDayPhase).length + 1,
         ),
       );
     });

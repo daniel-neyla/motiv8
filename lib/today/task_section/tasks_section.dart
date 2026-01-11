@@ -21,17 +21,57 @@ class TasksSection extends StatefulWidget {
 
 class _TasksSectionState extends State<TasksSection> {
   bool isEditingTasks = false;
-  void handleTaskDropped(Task task, DayPhase targetPhase) {
+  void handleTaskDropped(
+    Task draggedTask,
+    DayPhase targetPhase,
+    Task? targetTask,
+  ) {
     setState(() {
-      final index = widget.tasks.indexWhere((t) => t.id == task.id);
-      if (index == -1) return;
+      final updatedTasks = List<Task>.from(widget.tasks);
 
-      // Update only if phase changed
-      if (widget.tasks[index].dayPhase != targetPhase) {
-        widget.tasks[index] = widget.tasks[index].copyWith(
-          dayPhase: targetPhase,
+      // Remove dragged task
+      final draggedIndex = updatedTasks.indexWhere(
+        (t) => t.id == draggedTask.id,
+      );
+      final removedTask = updatedTasks.removeAt(draggedIndex);
+
+      // CASE 1: moved to another phase → append
+      if (removedTask.dayPhase != targetPhase) {
+        final maxOrder = updatedTasks
+            .where((t) => t.dayPhase == targetPhase)
+            .fold<int>(0, (max, t) => t.order > max ? t.order : max);
+
+        updatedTasks.add(
+          removedTask.copyWith(dayPhase: targetPhase, order: maxOrder + 1),
         );
       }
+      // CASE 2: reorder inside same phase
+      else if (targetTask != null) {
+        final targetIndex = updatedTasks.indexWhere(
+          (t) => t.id == targetTask.id,
+        );
+
+        updatedTasks.insert(
+          targetIndex,
+          removedTask.copyWith(order: targetTask.order),
+        );
+
+        // Normalize order inside phase
+        final phaseTasks =
+            updatedTasks.where((t) => t.dayPhase == targetPhase).toList()
+              ..sort((a, b) => a.order.compareTo(b.order));
+
+        for (int i = 0; i < phaseTasks.length; i++) {
+          final index = updatedTasks.indexWhere(
+            (t) => t.id == phaseTasks[i].id,
+          );
+          updatedTasks[index] = phaseTasks[i].copyWith(order: i);
+        }
+      }
+
+      widget.tasks
+        ..clear()
+        ..addAll(updatedTasks);
     });
   }
 

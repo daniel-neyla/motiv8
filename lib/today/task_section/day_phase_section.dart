@@ -23,7 +23,7 @@ class DayPhaseSection extends StatefulWidget {
   final List<Task> tasks;
   final bool isEditingTasks;
   final void Function(String) onToggleTask;
-  final void Function(Task, DayPhase) onTaskDropped;
+  final void Function(Task, DayPhase, Task?) onTaskDropped;
 
   @override
   State<DayPhaseSection> createState() => _DayPhaseSectionState();
@@ -52,7 +52,8 @@ class _DayPhaseSectionState extends State<DayPhaseSection> {
   Widget build(BuildContext context) {
     final isPast = state == DayPhaseStates.past;
     final isActive = state == DayPhaseStates.active;
-
+    final phaseTasks = [...widget.tasks]
+      ..sort((a, b) => a.order.compareTo(b.order));
     return _PhaseDropZone(
       phase: widget.dayPhase,
       state: state,
@@ -79,9 +80,11 @@ class _DayPhaseSectionState extends State<DayPhaseSection> {
             if (isOpen) const SizedBox(height: 12),
             if (isOpen)
               _PhaseTaskList(
-                tasks: widget.tasks,
+                tasks: phaseTasks,
                 isEditing: widget.isEditingTasks,
                 onToggleTask: widget.onToggleTask,
+                phase: widget.dayPhase,
+                onTaskDropped: widget.onTaskDropped,
               ),
           ],
         ),
@@ -101,7 +104,8 @@ class _PhaseDropZone extends StatelessWidget {
   final DayPhase phase;
   final Widget child;
   final DayPhaseStates state;
-  final void Function(Task task, DayPhase targetPhase) onTaskDropped;
+  final void Function(Task task, DayPhase targetPhase, Task? targetTask)
+  onTaskDropped;
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +115,7 @@ class _PhaseDropZone extends StatelessWidget {
       // },
       onWillAcceptWithDetails: (_) => true,
       onAcceptWithDetails: (details) {
-        onTaskDropped(details.data, phase);
+        onTaskDropped(details.data, phase, null);
       },
       builder: (context, _, _) => child,
     );
@@ -191,11 +195,15 @@ class _PhaseTaskList extends StatelessWidget {
     required this.tasks,
     required this.isEditing,
     required this.onToggleTask,
+    required this.phase,
+    required this.onTaskDropped,
   });
 
   final List<Task> tasks;
   final bool isEditing;
   final void Function(String) onToggleTask;
+  final DayPhase phase;
+  final void Function(Task, DayPhase, Task?) onTaskDropped;
 
   @override
   Widget build(BuildContext context) {
@@ -227,24 +235,56 @@ class _PhaseTaskList extends StatelessWidget {
         );
 
         if (isEditing) {
-          taskWidget = LongPressDraggable<Task>(
-            data: task,
-            feedback: Material(
-              color: Colors.transparent,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: TaskItem(task: task, isEditing: true, onToggle: (_) {}),
-              ),
-            ),
-            childWhenDragging: Opacity(
-              opacity: 0.4,
-              child: TaskItem(task: task, isEditing: true, onToggle: (_) {}),
-            ),
-            child: TaskItem(
-              task: task,
-              isEditing: isEditing,
-              onToggle: onToggleTask,
-            ),
+          taskWidget = DragTarget<Task>(
+            onWillAcceptWithDetails: (details) {
+              return details.data.dayPhase == phase;
+            },
+            onAcceptWithDetails: (details) {
+              onTaskDropped(details.data, phase, task);
+            },
+            builder: (context, candidateData, rejectedData) {
+              final isHovering = candidateData.isNotEmpty;
+              return Column(
+                children: [
+                  if (isHovering)
+                    Container(
+                      height: 4,
+                      margin: const EdgeInsets.symmetric(vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  LongPressDraggable<Task>(
+                    data: task,
+                    feedback: Material(
+                      color: Colors.transparent,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: TaskItem(
+                          task: task,
+                          isEditing: true,
+                          onToggle: (_) {},
+                        ),
+                      ),
+                    ),
+                    childWhenDragging: Opacity(
+                      opacity: 0.4,
+                      child: TaskItem(
+                        task: task,
+                        isEditing: true,
+                        onToggle: (_) {},
+                      ),
+                    ),
+                    child: TaskItem(
+                      task: task,
+                      isEditing: isEditing,
+                      onToggle: onToggleTask,
+                    ),
+                  ),
+                ],
+              );
+            },
           );
         }
 
