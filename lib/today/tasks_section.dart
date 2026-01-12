@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'day_phase_section.dart';
-import '../../models/task.dart';
-import '../../utils/day_phase.dart';
-import 'add_task_button.dart';
+import 'task_section/day_phase_section.dart';
+import '../models/task.dart';
+import '../utils/day_phase.dart';
+import 'task_section/add_task_button.dart';
 
 class TasksSection extends StatefulWidget {
   const TasksSection({
@@ -29,6 +29,11 @@ class _TasksSectionState extends State<TasksSection> {
     setState(() {
       final updatedTasks = List<Task>.from(widget.tasks);
 
+      // Case 0: No-op guard (very important)
+      if (draggedTask.dayPhase == targetPhase && targetTask == null) {
+        return;
+      }
+
       // Remove dragged task
       final draggedIndex = updatedTasks.indexWhere(
         (t) => t.id == draggedTask.id,
@@ -50,9 +55,10 @@ class _TasksSectionState extends State<TasksSection> {
         final targetIndex = updatedTasks.indexWhere(
           (t) => t.id == targetTask.id,
         );
+        final safeIndex = targetIndex.clamp(0, updatedTasks.length);
 
         updatedTasks.insert(
-          targetIndex,
+          safeIndex,
           removedTask.copyWith(order: targetTask.order),
         );
 

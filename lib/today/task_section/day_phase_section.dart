@@ -113,11 +113,37 @@ class _PhaseDropZone extends StatelessWidget {
       // onWillAcceptWithDetails: (details) {
       //   return state != DayPhaseStates.past;
       // },
-      onWillAcceptWithDetails: (_) => true,
+      onWillAcceptWithDetails: (details) {
+        return details.data.dayPhase != phase;
+      },
       onAcceptWithDetails: (details) {
         onTaskDropped(details.data, phase, null);
       },
-      builder: (context, _, _) => child,
+      builder: (context, candidateData, _) {
+        final isActive = candidateData.isNotEmpty;
+
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          decoration: BoxDecoration(
+            color: isActive
+                ? Theme.of(context).primaryColor.withAlpha(15)
+                : Colors.transparent,
+            border: Border.all(
+              color: isActive
+                  ? Theme.of(context).primaryColor
+                  : Colors.transparent,
+              width: isActive ? 2 : 1,
+            ),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            children: [
+              child,
+              if (isActive) const Icon(Icons.arrow_downward, size: 16),
+            ],
+          ),
+        );
+      },
     );
   }
 }

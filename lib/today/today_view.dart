@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../app/app_scaffold.dart';
 import 'greeting_message.dart';
 import 'direction_reminder.dart';
-import 'task_section/tasks_section.dart';
+import 'tasks_section.dart';
 import '../models/goal.dart';
 import '../models/task.dart';
 import '../utils/day_phase.dart';
@@ -157,7 +157,7 @@ class _TodayViewState extends State<TodayView> {
                   child: DirectionReminder(goals: goals),
                 ),
               ),
-              SliverToBoxAdapter(child: SizedBox(height: 12)),
+              SliverToBoxAdapter(child: SizedBox(height: 24)),
               SliverToBoxAdapter(
                 child: TasksSection(
                   tasks: tasks,
