@@ -85,6 +85,7 @@ class _DayPhaseSectionState extends State<DayPhaseSection> {
                 onToggleTask: widget.onToggleTask,
                 phase: widget.dayPhase,
                 onTaskDropped: widget.onTaskDropped,
+                state: state,
               ),
           ],
         ),
@@ -114,7 +115,7 @@ class _PhaseDropZone extends StatelessWidget {
       //   return state != DayPhaseStates.past;
       // },
       onWillAcceptWithDetails: (details) {
-        return details.data.dayPhase != phase;
+        return details.data.dayPhase != phase && state != DayPhaseStates.past;
       },
       onAcceptWithDetails: (details) {
         onTaskDropped(details.data, phase, null);
@@ -223,8 +224,9 @@ class _PhaseTaskList extends StatelessWidget {
     required this.onToggleTask,
     required this.phase,
     required this.onTaskDropped,
+    required this.state,
   });
-
+  final DayPhaseStates state;
   final List<Task> tasks;
   final bool isEditing;
   final void Function(String) onToggleTask;
@@ -272,7 +274,7 @@ class _PhaseTaskList extends StatelessWidget {
               final isHovering = candidateData.isNotEmpty;
               return Column(
                 children: [
-                  if (isHovering)
+                  if (isHovering && state != DayPhaseStates.past)
                     Container(
                       height: 4,
                       margin: const EdgeInsets.symmetric(vertical: 4),
@@ -281,32 +283,45 @@ class _PhaseTaskList extends StatelessWidget {
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
-                  LongPressDraggable<Task>(
-                    data: task,
-                    feedback: Material(
-                      color: Colors.transparent,
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.8,
+                  Row(
+                    children: [
+                      if (isEditing && state != DayPhaseStates.past) ...[
+                        LongPressDraggable<Task>(
+                          data: task,
+                          feedback: Material(
+                            color: Colors.transparent,
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: TaskItem(
+                                task: task,
+                                isEditing: true,
+                                onToggle: (_) {},
+                              ),
+                            ),
+                          ),
+                          childWhenDragging: Icon(
+                            Icons.drag_indicator,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withAlpha(60),
+                          ),
+                          child: Icon(
+                            Icons.drag_indicator,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withAlpha(120),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                      ],
+                      Expanded(
                         child: TaskItem(
                           task: task,
-                          isEditing: true,
-                          onToggle: (_) {},
+                          isEditing: isEditing,
+                          onToggle: onToggleTask,
                         ),
                       ),
-                    ),
-                    childWhenDragging: Opacity(
-                      opacity: 0.4,
-                      child: TaskItem(
-                        task: task,
-                        isEditing: true,
-                        onToggle: (_) {},
-                      ),
-                    ),
-                    child: TaskItem(
-                      task: task,
-                      isEditing: isEditing,
-                      onToggle: onToggleTask,
-                    ),
+                    ],
                   ),
                 ],
               );
@@ -314,18 +329,7 @@ class _PhaseTaskList extends StatelessWidget {
           );
         }
 
-        return Row(
-          children: [
-            if (isEditing) ...[
-              Icon(
-                Icons.drag_indicator,
-                color: Theme.of(context).colorScheme.onSurface.withAlpha(120),
-              ),
-              const SizedBox(width: 8),
-            ],
-            Expanded(child: taskWidget),
-          ],
-        );
+        return Expanded(child: taskWidget);
       },
     );
   }
