@@ -7,9 +7,15 @@ class TaskItem extends StatelessWidget {
     required this.task,
     required this.onToggle,
     required this.isEditing,
+    required this.onSetActive,
+    required this.isActive,
 
     // required this.onToggle,
   });
+
+  final void Function(String) onSetActive;
+  final bool isActive;
+
   final Task task;
   final bool isEditing;
   final void Function(String) onToggle;
@@ -68,6 +74,15 @@ class TaskItem extends StatelessWidget {
                       : colorScheme.onSurface,
                 ),
               ),
+            ),
+            IconButton(
+              icon: Icon(
+                isActive ? Icons.play_circle : Icons.play_circle_outline,
+                color: isActive
+                    ? colorScheme.primary
+                    : colorScheme.onSurface.withAlpha(120),
+              ),
+              onPressed: () => onSetActive(task.id),
             ),
           ],
         ),

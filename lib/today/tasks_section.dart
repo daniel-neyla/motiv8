@@ -21,6 +21,23 @@ class TasksSection extends StatefulWidget {
 
 class _TasksSectionState extends State<TasksSection> {
   bool isEditingTasks = false;
+  String? activeTaskId;
+
+  void setActiveTask(String taskId) {
+    setState(() {
+      debugPrint('Setting active task: $taskId');
+      Task t = widget.tasks.firstWhere((task) => task.id == taskId);
+      debugPrint('Active task title: ${t.title}');
+      activeTaskId = taskId;
+    });
+  }
+
+  void clearActiveTask() {
+    setState(() {
+      activeTaskId = null;
+    });
+  }
+
   void handleTaskDropped(
     Task draggedTask,
     DayPhase targetPhase,
@@ -87,6 +104,11 @@ class _TasksSectionState extends State<TasksSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (activeTaskId != null)
+          _ActiveTaskBanner(
+            task: widget.tasks.firstWhere((t) => t.id == activeTaskId),
+            onClear: clearActiveTask,
+          ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -139,6 +161,8 @@ class _TasksSectionState extends State<TasksSection> {
           onToggleTask: widget.onToggleTask,
           isEditingTasks: isEditingTasks,
           onTaskDropped: handleTaskDropped,
+          onSetActive: setActiveTask,
+          activeTaskId: activeTaskId,
         ),
         DayPhaseSection(
           title: 'Afternoon',
@@ -151,6 +175,8 @@ class _TasksSectionState extends State<TasksSection> {
           onToggleTask: widget.onToggleTask,
           isEditingTasks: isEditingTasks,
           onTaskDropped: handleTaskDropped,
+          onSetActive: setActiveTask,
+          activeTaskId: activeTaskId,
         ),
         DayPhaseSection(
           title: 'Evening',
@@ -162,11 +188,47 @@ class _TasksSectionState extends State<TasksSection> {
           onToggleTask: widget.onToggleTask,
           isEditingTasks: isEditingTasks,
           onTaskDropped: handleTaskDropped,
+          onSetActive: setActiveTask,
+          activeTaskId: activeTaskId,
         ),
         SizedBox(height: 16),
         AddTaskButton(onSubmit: widget.onSubmit),
         SizedBox(height: 16),
       ],
+    );
+  }
+}
+
+class _ActiveTaskBanner extends StatelessWidget {
+  final Task task;
+  final VoidCallback onClear;
+
+  const _ActiveTaskBanner({required this.task, required this.onClear});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: colorScheme.primary.withAlpha(20),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.play_arrow),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              task.title,
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
+          ),
+          IconButton(icon: const Icon(Icons.close), onPressed: onClear),
+        ],
+      ),
     );
   }
 }

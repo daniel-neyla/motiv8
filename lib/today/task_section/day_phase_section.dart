@@ -16,7 +16,11 @@ class DayPhaseSection extends StatefulWidget {
     required this.onToggleTask,
     required this.isEditingTasks,
     required this.onTaskDropped,
+    required this.onSetActive,
+    required this.activeTaskId,
   });
+  final void Function(String taskId) onSetActive;
+  final String? activeTaskId;
   final String title;
   final DayPhase dayPhase;
   final String emoji;
@@ -86,6 +90,8 @@ class _DayPhaseSectionState extends State<DayPhaseSection> {
                 phase: widget.dayPhase,
                 onTaskDropped: widget.onTaskDropped,
                 state: state,
+                onSetActive: widget.onSetActive,
+                activeTaskId: widget.activeTaskId,
               ),
           ],
         ),
@@ -225,7 +231,11 @@ class _PhaseTaskList extends StatelessWidget {
     required this.phase,
     required this.onTaskDropped,
     required this.state,
+    required this.onSetActive,
+    required this.activeTaskId,
   });
+  final void Function(String taskId) onSetActive;
+  final String? activeTaskId;
   final DayPhaseStates state;
   final List<Task> tasks;
   final bool isEditing;
@@ -260,6 +270,8 @@ class _PhaseTaskList extends StatelessWidget {
           task: task,
           isEditing: isEditing,
           onToggle: onToggleTask,
+          onSetActive: onSetActive,
+          isActive: task.id == activeTaskId,
         );
 
         if (isEditing) {
@@ -296,6 +308,8 @@ class _PhaseTaskList extends StatelessWidget {
                                 task: task,
                                 isEditing: true,
                                 onToggle: (_) {},
+                                onSetActive: onSetActive,
+                                isActive: task.id == activeTaskId,
                               ),
                             ),
                           ),
@@ -319,6 +333,8 @@ class _PhaseTaskList extends StatelessWidget {
                           task: task,
                           isEditing: isEditing,
                           onToggle: onToggleTask,
+                          onSetActive: onSetActive,
+                          isActive: task.id == activeTaskId,
                         ),
                       ),
                     ],
@@ -329,7 +345,7 @@ class _PhaseTaskList extends StatelessWidget {
           );
         }
 
-        return Expanded(child: taskWidget);
+        return taskWidget;
       },
     );
   }
