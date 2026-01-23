@@ -16,10 +16,10 @@ class DayPhaseSection extends StatefulWidget {
     required this.onToggleTask,
     required this.isEditingTasks,
     required this.onTaskDropped,
-    required this.onSetActive,
+    required this.onToggleActive,
     required this.activeTaskId,
   });
-  final void Function(String taskId) onSetActive;
+  final void Function(String taskId) onToggleActive;
   final String? activeTaskId;
   final String title;
   final DayPhase dayPhase;
@@ -90,7 +90,7 @@ class _DayPhaseSectionState extends State<DayPhaseSection> {
                 phase: widget.dayPhase,
                 onTaskDropped: widget.onTaskDropped,
                 state: state,
-                onSetActive: widget.onSetActive,
+                onToggleActive: widget.onToggleActive,
                 activeTaskId: widget.activeTaskId,
               ),
           ],
@@ -231,10 +231,10 @@ class _PhaseTaskList extends StatelessWidget {
     required this.phase,
     required this.onTaskDropped,
     required this.state,
-    required this.onSetActive,
+    required this.onToggleActive,
     required this.activeTaskId,
   });
-  final void Function(String taskId) onSetActive;
+  final void Function(String taskId) onToggleActive;
   final String? activeTaskId;
   final DayPhaseStates state;
   final List<Task> tasks;
@@ -270,7 +270,7 @@ class _PhaseTaskList extends StatelessWidget {
           task: task,
           isEditing: isEditing,
           onToggle: onToggleTask,
-          onSetActive: onSetActive,
+          onToggleActive: onToggleActive,
           isActive: task.id == activeTaskId,
         );
 
@@ -297,7 +297,7 @@ class _PhaseTaskList extends StatelessWidget {
                     ),
                   Row(
                     children: [
-                      if (isEditing && state != DayPhaseStates.past) ...[
+                      if (isEditing) ...[
                         LongPressDraggable<Task>(
                           data: task,
                           feedback: Material(
@@ -308,7 +308,7 @@ class _PhaseTaskList extends StatelessWidget {
                                 task: task,
                                 isEditing: true,
                                 onToggle: (_) {},
-                                onSetActive: onSetActive,
+                                onToggleActive: onToggleActive,
                                 isActive: task.id == activeTaskId,
                               ),
                             ),
@@ -333,7 +333,7 @@ class _PhaseTaskList extends StatelessWidget {
                           task: task,
                           isEditing: isEditing,
                           onToggle: onToggleTask,
-                          onSetActive: onSetActive,
+                          onToggleActive: onToggleActive,
                           isActive: task.id == activeTaskId,
                         ),
                       ),

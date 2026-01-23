@@ -23,12 +23,16 @@ class _TasksSectionState extends State<TasksSection> {
   bool isEditingTasks = false;
   String? activeTaskId;
 
-  void setActiveTask(String taskId) {
+  void toggleTask(String taskId) {
     setState(() {
       debugPrint('Setting active task: $taskId');
       Task t = widget.tasks.firstWhere((task) => task.id == taskId);
       debugPrint('Active task title: ${t.title}');
-      activeTaskId = taskId;
+      if (activeTaskId != taskId) {
+        activeTaskId = taskId;
+      } else {
+        activeTaskId = null;
+      }
     });
   }
 
@@ -161,7 +165,7 @@ class _TasksSectionState extends State<TasksSection> {
           onToggleTask: widget.onToggleTask,
           isEditingTasks: isEditingTasks,
           onTaskDropped: handleTaskDropped,
-          onSetActive: setActiveTask,
+          onToggleActive: toggleTask,
           activeTaskId: activeTaskId,
         ),
         DayPhaseSection(
@@ -175,7 +179,7 @@ class _TasksSectionState extends State<TasksSection> {
           onToggleTask: widget.onToggleTask,
           isEditingTasks: isEditingTasks,
           onTaskDropped: handleTaskDropped,
-          onSetActive: setActiveTask,
+          onToggleActive: toggleTask,
           activeTaskId: activeTaskId,
         ),
         DayPhaseSection(
@@ -188,7 +192,7 @@ class _TasksSectionState extends State<TasksSection> {
           onToggleTask: widget.onToggleTask,
           isEditingTasks: isEditingTasks,
           onTaskDropped: handleTaskDropped,
-          onSetActive: setActiveTask,
+          onToggleActive: toggleTask,
           activeTaskId: activeTaskId,
         ),
         SizedBox(height: 16),
@@ -215,15 +219,29 @@ class _ActiveTaskBanner extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorScheme.primary.withAlpha(20),
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: colorScheme.primary, width: 1.0),
       ),
       child: Row(
         children: [
-          const Icon(Icons.play_arrow),
+          CircleAvatar(
+            backgroundColor: colorScheme.primary.withAlpha(20),
+            child: Icon(Icons.play_arrow, color: colorScheme.primary),
+          ),
           const SizedBox(width: 8),
           Expanded(
-            child: Text(
-              task.title,
-              style: const TextStyle(fontWeight: FontWeight.w600),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Active Now".toUpperCase(),
+                  style: TextStyle(color: colorScheme.primary),
+                ),
+
+                Text(
+                  task.title,
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+              ],
             ),
           ),
           IconButton(icon: const Icon(Icons.close), onPressed: onClear),

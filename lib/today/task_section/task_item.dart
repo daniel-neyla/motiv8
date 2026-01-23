@@ -7,13 +7,13 @@ class TaskItem extends StatelessWidget {
     required this.task,
     required this.onToggle,
     required this.isEditing,
-    required this.onSetActive,
+    required this.onToggleActive,
     required this.isActive,
 
     // required this.onToggle,
   });
 
-  final void Function(String) onSetActive;
+  final void Function(String) onToggleActive;
   final bool isActive;
 
   final Task task;
@@ -82,7 +82,7 @@ class TaskItem extends StatelessWidget {
                     ? colorScheme.primary
                     : colorScheme.onSurface.withAlpha(120),
               ),
-              onPressed: () => onSetActive(task.id),
+              onPressed: () => onToggleActive(task.id),
             ),
           ],
         ),
