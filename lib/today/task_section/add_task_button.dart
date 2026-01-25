@@ -44,37 +44,41 @@ class _AddTaskButtonState extends State<AddTaskButton> {
   }
 
   Widget _buildButton() {
-    final bool isActive = isHovering || isPressed;
-    return GestureDetector(
-      onTap: _startEditing,
-      child: MouseRegion(
-        onEnter: (_) => setState(() => isHovering = true),
-        onExit: (_) => setState(() => isHovering = false),
+    final isActive = isHovering || isPressed;
+    final colorScheme = Theme.of(context).colorScheme;
 
-        child: ClipRRect(
+    return MouseRegion(
+      onEnter: (_) => setState(() => isHovering = true),
+      onExit: (_) => setState(() => isHovering = false),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(12),
+
+        child: InkWell(
           borderRadius: BorderRadius.circular(12),
-
-          child: Container(
-            color: isActive
-                ? Theme.of(context).colorScheme.primary.withAlpha(10)
-                : Colors.transparent,
-
-            child: DottedBorder(
+          onTap: _startEditing,
+          onTapDown: (_) => setState(() => isPressed = true),
+          onTapUp: (_) => setState(() => isPressed = false),
+          onTapCancel: () => setState(() => isPressed = false),
+          child: Ink(
+            decoration: BoxDecoration(
               color: isActive
-                  ? Theme.of(context).colorScheme.primary.withAlpha(50)
-                  : Theme.of(context).colorScheme.onSurface.withAlpha(50),
+                  ? colorScheme.primary.withAlpha(10)
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(1),
 
-              strokeWidth: 4,
-              dashPattern: [6, 4],
-              borderType: BorderType.RRect,
-              radius: const Radius.circular(12),
-              child: InkWell(
-                onTapDown: (_) => setState(() => isPressed = true),
-                onTapUp: (_) => setState(() => isPressed = false),
-                borderRadius: BorderRadius.circular(12),
-                onTap: () {
-                  _startEditing();
-                },
+              child: DottedBorder(
+                color: isActive
+                    ? colorScheme.primary.withAlpha(50)
+                    : colorScheme.onSurface.withAlpha(50),
+                strokeWidth: 2,
+
+                dashPattern: const [6, 4],
+                borderType: BorderType.RRect,
+                radius: const Radius.circular(12),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,
@@ -84,25 +88,18 @@ class _AddTaskButtonState extends State<AddTaskButton> {
                     children: [
                       CircleAvatar(
                         radius: 16,
-
-                        backgroundColor: Theme.of(
-                          context,
-                        ).colorScheme.onSurface.withAlpha(20),
+                        backgroundColor: colorScheme.onSurface.withAlpha(20),
                         child: Icon(
                           Icons.add,
                           size: 18,
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onSurface.withAlpha(150),
+                          color: colorScheme.onSurface.withAlpha(150),
                         ),
                       ),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       Text(
                         'Add something to today',
                         style: TextStyle(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onSurface.withAlpha(150),
+                          color: colorScheme.onSurface.withAlpha(150),
                           fontWeight: FontWeight.w500,
                         ),
                       ),

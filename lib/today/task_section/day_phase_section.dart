@@ -180,42 +180,50 @@ class _PhaseHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return InkResponse(
-      onTap: onTap,
+    return Material(
+      color: Colors.transparent,
       borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-        decoration: BoxDecoration(
-          color: isActive
-              ? colorScheme.primaryContainer.withValues(alpha: 0.2)
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-          border: isActive
-              ? Border.all(
-                  color: colorScheme.primary.withAlpha(100),
-                  width: 1.5,
-                )
-              : null,
-        ),
-        child: Opacity(
-          opacity: isPast ? 0.4 : 1.0,
-          child: Row(
-            children: [
-              Text(emoji),
-              const SizedBox(width: 12),
-              Text(
-                '$title · $completedCount/$totalCount',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
-                ),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Ink(
+          decoration: BoxDecoration(
+            color: isActive
+                ? colorScheme.primaryContainer.withAlpha(50)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(12),
+            border: isActive
+                ? Border.all(
+                    color: colorScheme.primary.withAlpha(100),
+                    width: 1.5,
+                  )
+                : null,
+          ),
+          child: Opacity(
+            opacity: isPast ? 0.4 : 1.0,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              child: Row(
+                children: [
+                  Text(emoji),
+                  const SizedBox(width: 12),
+                  Text(
+                    '$title · $completedCount/$totalCount',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
+                    ),
+                  ),
+                  const Spacer(),
+                  Icon(
+                    isOpen
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
+                    size: 18,
+                  ),
+                ],
               ),
-              const Spacer(),
-              Icon(
-                isOpen ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                size: 18,
-              ),
-            ],
+            ),
           ),
         ),
       ),

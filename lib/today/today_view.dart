@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../app/app_scaffold.dart';
+
 import 'greeting_message.dart';
 import 'direction_reminder.dart';
 import 'tasks_section.dart';
@@ -140,43 +140,41 @@ class _TodayViewState extends State<TodayView> {
   }
 
   Widget taskSection() {
-    return AppScaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 18),
-          child: CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              SliverToBoxAdapter(child: SizedBox(height: 24)),
-              SliverToBoxAdapter(child: const GreetingMessage()),
-              SliverToBoxAdapter(child: SizedBox(height: 12)),
-              SliverToBoxAdapter(
-                child: AnimatedOpacity(
-                  duration: Duration(milliseconds: 200),
-                  opacity: _directionOpacity,
-                  child: DirectionReminder(goals: goals),
-                ),
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 18),
+        child: CustomScrollView(
+          controller: _scrollController,
+          slivers: [
+            SliverToBoxAdapter(child: SizedBox(height: 24)),
+            SliverToBoxAdapter(child: const GreetingMessage()),
+            SliverToBoxAdapter(child: SizedBox(height: 12)),
+            SliverToBoxAdapter(
+              child: AnimatedOpacity(
+                duration: Duration(milliseconds: 200),
+                opacity: _directionOpacity,
+                child: DirectionReminder(goals: goals),
               ),
-              SliverToBoxAdapter(child: SizedBox(height: 24)),
-              SliverToBoxAdapter(
-                child: TasksSection(
-                  tasks: tasks,
-                  onToggleTask: toggleTask,
-                  onSubmit: quickAddTask,
-                ),
+            ),
+            SliverToBoxAdapter(child: SizedBox(height: 24)),
+            SliverToBoxAdapter(
+              child: TasksSection(
+                tasks: tasks,
+                onToggleTask: toggleTask,
+                onSubmit: quickAddTask,
               ),
+            ),
 
-              SliverPadding(
-                padding: const EdgeInsets.symmetric(vertical: 24.0),
-                sliver: SliverToBoxAdapter(
-                  child: CloseDayButton(
-                    tasksComplete: tasks.where((task) => task.completed).length,
-                    numOfTasks: tasks.length,
-                  ),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(vertical: 24.0),
+              sliver: SliverToBoxAdapter(
+                child: CloseDayButton(
+                  tasksComplete: tasks.where((task) => task.completed).length,
+                  numOfTasks: tasks.length,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'bottom_nav_bar.dart';
+import '../growth/growth_page.dart';
+import 'package:motiv8/today/today_view.dart';
 
-class AppScaffold extends StatelessWidget {
-  final Widget body;
+class AppScaffold extends StatefulWidget {
+  const AppScaffold({super.key});
 
-  const AppScaffold({super.key, required this.body});
+  @override
+  State<AppScaffold> createState() => _AppScaffoldState();
+}
 
+class _AppScaffoldState extends State<AppScaffold> {
+  int activeIndex = 0;
+  void onAdd() {
+    // void add task overlay
+  }
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -26,9 +35,18 @@ class AppScaffold extends StatelessWidget {
           ),
         ),
       ),
-      body: body,
+      body: IndexedStack(
+        index: activeIndex,
+        children: const [TodayView(), GrowthPage()],
+      ),
 
-      bottomNavigationBar: BottomNavBar(onAdd: () {}),
+      bottomNavigationBar: BottomNavBar(
+        activeIndex: activeIndex,
+        onTap: (index) {
+          setState(() => activeIndex = index);
+        },
+        onAdd: onAdd,
+      ),
     );
   }
 }

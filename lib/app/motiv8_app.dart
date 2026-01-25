@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../today/today_view.dart';
+
+import 'app_scaffold.dart';
 
 void main() {
   runApp(const Motiv8App());
@@ -23,7 +24,7 @@ class Motiv8App extends StatelessWidget {
           surface: Color.fromARGB(255, 240, 240, 240),
         ),
       ),
-      home: const TodayView(),
+      home: const AppScaffold(),
     );
   }
 }

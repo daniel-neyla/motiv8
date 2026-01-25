@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+
 import 'nav_item.dart';
 
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({super.key, required this.onAdd});
+  const BottomNavBar({
+    super.key,
+    required this.activeIndex,
+    required this.onTap,
+    required this.onAdd,
+  });
 
+  final int activeIndex;
+  final ValueChanged<int> onTap;
   final VoidCallback onAdd;
 
   @override
@@ -29,6 +37,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             label: 'Today',
             isActive: activeIndex == 0,
             onTap: () {
+              setState(() => widget.onTap(0));
               setState(() => activeIndex = 0);
             },
           ),
@@ -58,6 +67,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             label: 'Growth',
             isActive: activeIndex == 1,
             onTap: () {
+              setState(() => widget.onTap(1));
               setState(() => activeIndex = 1);
             },
           ),
