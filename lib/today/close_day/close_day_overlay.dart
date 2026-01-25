@@ -13,7 +13,10 @@ class CloseDayOverlay extends StatefulWidget {
 class _CloseDayOverlay extends State<CloseDayOverlay> {
   int currentStep = 0;
   final steps = [
-    CloseDayStep(title: 'How did today feel?', body: MoodBoard()),
+    CloseDayStep(
+      title: 'How did today feel?',
+      body: Center(child: MoodBoard()),
+    ),
     CloseDayStep(title: 'Reflect on your day', body: ReflectionStep()),
   ];
 
@@ -45,42 +48,52 @@ class _CloseDayOverlay extends State<CloseDayOverlay> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final screenHeight = mediaQuery.size.height;
+    final keyboardInset = mediaQuery.viewInsets.bottom;
+
+    debugPrint('Keyboard inset: $keyboardInset');
     return Stack(
       children: [
-        Container(
-          padding: EdgeInsets.all(24),
-          height: MediaQuery.of(context).size.height * 0.6,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-          ),
-          child: Column(
-            children: [
-              _Header(
-                step: currentStep,
-                numOfSteps: steps.length,
-                title: steps[currentStep].title,
+        AnimatedPadding(
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOut,
+          padding: EdgeInsets.only(bottom: keyboardInset),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeOut,
+            padding: EdgeInsets.all(24),
+            height: screenHeight * 0.6,
+            constraints: BoxConstraints(
+              maxHeight: screenHeight - keyboardInset - 100,
+            ),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(24),
               ),
-
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.only(
-                    top: 24,
-                    bottom: MediaQuery.of(context).viewInsets.bottom + 24,
-                  ),
-                  child: _buildStep(),
+            ),
+            child: Column(
+              children: [
+                _Header(
+                  step: currentStep,
+                  numOfSteps: steps.length,
+                  title: steps[currentStep].title,
                 ),
-              ),
+                const SizedBox(height: 12),
 
-              _Footer(
-                onNext: next,
-                currentStep: currentStep,
-                numOfSteps: steps.length,
-                onClose: close,
-                onIncrementStep: incrementStep,
-                onDecrementStep: decrementStep,
-              ),
-            ],
+                Expanded(child: _buildStep()),
+
+                _Footer(
+                  onNext: next,
+                  currentStep: currentStep,
+                  numOfSteps: steps.length,
+                  onClose: close,
+                  onIncrementStep: incrementStep,
+                  onDecrementStep: decrementStep,
+                ),
+              ],
+            ),
           ),
         ),
 
@@ -93,6 +106,15 @@ class _CloseDayOverlay extends State<CloseDayOverlay> {
     return steps[currentStep].body;
   }
 }
+
+// Container(
+//           padding: EdgeInsets.all(24),
+//  height: MediaQuery.of(context).size.height * 0.6,
+//           decoration: BoxDecoration(
+//             color: Theme.of(context).colorScheme.surface,
+//             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+//           ),
+//           child:
 
 class _CloseButton extends StatelessWidget {
   final VoidCallback onClose;
