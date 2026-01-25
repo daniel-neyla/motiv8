@@ -82,7 +82,7 @@ class TaskItem extends StatelessWidget {
                     ? colorScheme.primary
                     : colorScheme.onSurface.withAlpha(120),
               ),
-              onPressed: () => onToggleActive(task.id),
+              onPressed: () => !isEditing ? onToggleActive(task.id) : null,
             ),
           ],
         ),
