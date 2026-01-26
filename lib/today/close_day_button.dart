@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:motiv8/models/task.dart';
 import 'close_day/close_day_overlay.dart';
 import 'package:motiv8/models/day_review.dart';
 
 class CloseDayButton extends StatelessWidget {
   final DayReview review;
-
-  const CloseDayButton({super.key, required this.review});
+  final List<Task> unfinishedTasks;
+  const CloseDayButton({
+    super.key,
+    required this.review,
+    required this.unfinishedTasks,
+  });
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final double progress = review.completedTasks / review.numOfTasks;
+
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
           backgroundColor: Colors.transparent,
-          builder: (_) => CloseDayOverlay(review: review),
+          builder: (_) =>
+              CloseDayOverlay(review: review, unfinishedTasks: unfinishedTasks),
         );
       },
       child: Container(

@@ -1,21 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:motiv8/models/day_review.dart';
-import 'package:motiv8/utils/day_phase.dart';
+import 'package:motiv8/models/task.dart';
 import 'mood_board_step.dart';
 import 'reflection_step.dart';
 import 'close_day_step.dart';
 import 'day_review_step.dart';
+import 'package:motiv8/models/carry_over_decision.dart';
+import 'carry_over_step.dart';
 
 class CloseDayOverlay extends StatefulWidget {
   final DayReview review;
-  const CloseDayOverlay({super.key, required this.review});
+  final List<Task> unfinishedTasks;
+  const CloseDayOverlay({
+    super.key,
+    required this.review,
+    required this.unfinishedTasks,
+  });
 
   @override
   State<CloseDayOverlay> createState() => _CloseDayOverlay();
 }
 
 class _CloseDayOverlay extends State<CloseDayOverlay> {
+  late List<CarryOverDecision> carryOverDecisions;
   int currentStep = 0;
+  @override
+  void initState() {
+    super.initState();
+
+    carryOverDecisions = widget.unfinishedTasks
+        .map((task) => CarryOverDecision(task: task))
+        .toList();
+  }
+
   List<CloseDayStep> get steps => [
     CloseDayStep(
       title: 'Day Review',
@@ -26,6 +43,17 @@ class _CloseDayOverlay extends State<CloseDayOverlay> {
       body: Center(child: MoodBoard()),
     ),
     CloseDayStep(title: 'Reflect on your day', body: ReflectionStep()),
+    CloseDayStep(
+      title: 'Looking ahead',
+      body: CarryOverStep(
+        decisions: carryOverDecisions,
+        onActionChanged: (decision, action) {
+          setState(() {
+            decision.action = action;
+          });
+        },
+      ),
+    ),
   ];
 
   void next() {
