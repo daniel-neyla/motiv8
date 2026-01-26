@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'mood_board.dart';
+import 'package:motiv8/models/day_review.dart';
+import 'package:motiv8/utils/day_phase.dart';
+import 'mood_board_step.dart';
 import 'reflection_step.dart';
 import 'close_day_step.dart';
+import 'day_review_step.dart';
 
 class CloseDayOverlay extends StatefulWidget {
-  const CloseDayOverlay({super.key});
+  final DayReview review;
+  const CloseDayOverlay({super.key, required this.review});
 
   @override
   State<CloseDayOverlay> createState() => _CloseDayOverlay();
@@ -12,7 +16,11 @@ class CloseDayOverlay extends StatefulWidget {
 
 class _CloseDayOverlay extends State<CloseDayOverlay> {
   int currentStep = 0;
-  final steps = [
+  List<CloseDayStep> get steps => [
+    CloseDayStep(
+      title: 'Day Review',
+      body: Center(child: DayReviewStep(review: widget.review)),
+    ),
     CloseDayStep(
       title: 'How did today feel?',
       body: Center(child: MoodBoard()),

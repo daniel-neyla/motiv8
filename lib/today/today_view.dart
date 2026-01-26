@@ -7,6 +7,8 @@ import '../models/goal.dart';
 import '../models/task.dart';
 import '../utils/day_phase.dart';
 import 'close_day_button.dart';
+import '../models/day_review.dart';
+import '../content/quotes/quotes_service.dart';
 
 class TodayView extends StatefulWidget {
   const TodayView({super.key});
@@ -68,6 +70,28 @@ class _TodayViewState extends State<TodayView> {
       order: 1,
     ),
   ];
+
+  DayReview buildDayReview(List<Task> tasks) {
+    final completed = tasks.where((t) => t.completed).toList();
+
+    final phaseCounts = <DayPhase, int>{};
+
+    for (final task in completed) {
+      phaseCounts[task.dayPhase] = (phaseCounts[task.dayPhase] ?? 0) + 1;
+    }
+
+    final mostProductivePhase = phaseCounts.entries.isEmpty
+        ? DayPhase
+              .morning // fallback
+        : phaseCounts.entries.reduce((a, b) => a.value >= b.value ? a : b).key;
+
+    return DayReview(
+      numOfTasks: tasks.length,
+      completedTasks: completed.length,
+      mostProductivePhase: mostProductivePhase,
+      quote: QuoteService.randomQuote(),
+    );
+  }
 
   void toggleTask(String taskId) {
     setState(() {
@@ -168,10 +192,7 @@ class _TodayViewState extends State<TodayView> {
             SliverPadding(
               padding: const EdgeInsets.symmetric(vertical: 24.0),
               sliver: SliverToBoxAdapter(
-                child: CloseDayButton(
-                  tasksComplete: tasks.where((task) => task.completed).length,
-                  numOfTasks: tasks.length,
-                ),
+                child: CloseDayButton(review: buildDayReview(tasks)),
               ),
             ),
           ],

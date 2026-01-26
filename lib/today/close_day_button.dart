@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
 import 'close_day/close_day_overlay.dart';
+import 'package:motiv8/models/day_review.dart';
 
 class CloseDayButton extends StatelessWidget {
-  final int tasksComplete;
-  final int numOfTasks;
+  final DayReview review;
 
-  const CloseDayButton({
-    super.key,
-    required this.tasksComplete,
-    required this.numOfTasks,
-  });
+  const CloseDayButton({super.key, required this.review});
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final double progress = tasksComplete / numOfTasks;
+    final double progress = review.completedTasks / review.numOfTasks;
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
           backgroundColor: Colors.transparent,
-          builder: (_) => CloseDayOverlay(),
+          builder: (_) => CloseDayOverlay(review: review),
         );
       },
       child: Container(
@@ -59,7 +55,7 @@ class CloseDayButton extends StatelessWidget {
 
                   Text(
                     (progress < 1)
-                        ? "${numOfTasks - tasksComplete} task remaining · That's okay!"
+                        ? "${review.numOfTasks - review.completedTasks} task remaining · That's okay!"
                         : 'All tasks complete!',
                     style: TextStyle(
                       fontSize: 12,
