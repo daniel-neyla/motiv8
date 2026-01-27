@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:motiv8/models/task.dart';
-import 'close_day/close_day_overlay.dart';
+import 'close_day_overlay.dart';
 import 'package:motiv8/models/day_review.dart';
 
 class CloseDayButton extends StatelessWidget {
   final DayReview review;
   final List<Task> unfinishedTasks;
+
   const CloseDayButton({
     super.key,
     required this.review,

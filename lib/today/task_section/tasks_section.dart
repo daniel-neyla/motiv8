@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'task_section/day_phase_section.dart';
-import '../models/task.dart';
-import '../utils/day_phase.dart';
-import 'task_section/add_task_button.dart';
+import 'day_phase_section.dart';
+import '../../models/task.dart';
+import '../../utils/day_phase.dart';
+import 'add_task_button.dart';
 
 class TasksSection extends StatefulWidget {
   const TasksSection({

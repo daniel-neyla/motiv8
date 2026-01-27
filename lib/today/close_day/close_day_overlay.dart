@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:motiv8/models/day_review.dart';
 import 'package:motiv8/models/task.dart';
-import 'mood_board_step.dart';
-import 'reflection_step.dart';
+import 'steps/mood_board_step.dart';
+import 'steps/reflection_step.dart';
 import 'close_day_step.dart';
-import 'day_review_step.dart';
+import 'steps/day_review_step.dart';
 import 'package:motiv8/models/carry_over_decision.dart';
-import 'carry_over_step.dart';
+import 'steps/carry_over_step.dart';
 
 class CloseDayOverlay extends StatefulWidget {
   final DayReview review;

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-
-import 'greeting_message.dart';
-import 'direction_reminder.dart';
-import 'tasks_section.dart';
 import '../models/goal.dart';
 import '../models/task.dart';
 import '../utils/day_phase.dart';
-import 'close_day_button.dart';
 import '../models/day_review.dart';
 import '../content/quotes/quotes_service.dart';
+import 'today_closed_view.dart';
+import 'today_open_view.dart';
+
+enum TodayStatus { open, closed }
 
 class TodayView extends StatefulWidget {
   const TodayView({super.key});
@@ -18,9 +17,9 @@ class TodayView extends StatefulWidget {
 }
 
 class _TodayViewState extends State<TodayView> {
-  final ScrollController _scrollController = ScrollController();
-  double _directionOpacity = 1.0;
   int taskId = 5;
+  TodayStatus todayStatus = TodayStatus.open;
+  bool isCloseDayOverlayOpen = false;
 
   int generateId() {
     return taskId++;
@@ -120,87 +119,16 @@ class _TodayViewState extends State<TodayView> {
   }
 
   @override
-  void initState() {
-    super.initState();
-
-    _scrollController.addListener(() {
-      final offset = _scrollController.offset;
-
-      // 👇 delay: greeting scrolls away first
-      const fadeStart = 80.0;
-      const fadeEnd = 200.0;
-
-      double opacity;
-
-      if (offset <= fadeStart) {
-        opacity = 1.0;
-      } else if (offset >= fadeEnd) {
-        opacity = 0.1;
-      } else {
-        opacity = 1 - (offset - fadeStart) / (fadeEnd - fadeStart);
-      }
-
-      setState(() {
-        _directionOpacity = opacity;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: taskSection(),
-    );
-  }
+    return todayStatus == TodayStatus.open
+        ? TodayOpenView(
+            tasks: tasks,
+            goals: goals,
+            toggleTask: toggleTask,
+            quickAddTask: quickAddTask,
 
-  Widget taskSection() {
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 18),
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            SliverToBoxAdapter(child: SizedBox(height: 24)),
-            SliverToBoxAdapter(child: const GreetingMessage()),
-            SliverToBoxAdapter(child: SizedBox(height: 12)),
-            SliverToBoxAdapter(
-              child: AnimatedOpacity(
-                duration: Duration(milliseconds: 200),
-                opacity: _directionOpacity,
-                child: DirectionReminder(goals: goals),
-              ),
-            ),
-            SliverToBoxAdapter(child: SizedBox(height: 24)),
-            SliverToBoxAdapter(
-              child: TasksSection(
-                tasks: tasks,
-                onToggleTask: toggleTask,
-                onSubmit: quickAddTask,
-              ),
-            ),
-
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(vertical: 24.0),
-              sliver: SliverToBoxAdapter(
-                child: CloseDayButton(
-                  review: buildDayReview(tasks),
-                  unfinishedTasks: tasks.where((t) => !t.completed).toList(),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+            review: buildDayReview(tasks),
+          )
+        : Center(child: Text('Closed Today'));
   }
 }
