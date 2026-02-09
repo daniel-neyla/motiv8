@@ -17,9 +17,9 @@ class _AppScaffoldState extends State<AppScaffold> {
   }
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: colorScheme.surface,
+      // backgroundColor: colorScheme.surface,
+      backgroundColor: const Color(0xFFF9F9F9),
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text('Motiv8', style: Theme.of(context).textTheme.titleLarge),
@@ -37,6 +37,7 @@ class _AppScaffoldState extends State<AppScaffold> {
       ),
       body: IndexedStack(
         index: activeIndex,
+
         children: const [TodayView(), GrowthPage()],
       ),
 

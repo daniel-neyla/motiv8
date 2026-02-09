@@ -23,6 +23,12 @@ class Motiv8App extends StatelessWidget {
           brightness: Brightness.light,
           surface: Color.fromARGB(255, 240, 240, 240),
         ),
+        textTheme: TextTheme(
+          titleMedium: TextStyle(fontWeight: FontWeight.bold),
+          headlineSmall: TextStyle(fontSize: 16, color: Colors.grey[600]),
+        ),
+
+        fontFamily: 'Serif',
       ),
       home: const AppScaffold(),
     );

@@ -23,7 +23,7 @@ class DayPhaseSection extends StatefulWidget {
   final String? activeTaskId;
   final String title;
   final DayPhase dayPhase;
-  final String emoji;
+  final IconData emoji;
   final List<Task> tasks;
   final bool isEditingTasks;
   final void Function(String) onToggleTask;
@@ -168,7 +168,7 @@ class _PhaseHeader extends StatelessWidget {
   });
 
   final String title;
-  final String emoji;
+  final IconData emoji;
   final bool isOpen;
   final bool isPast;
   final bool isActive;
@@ -205,7 +205,7 @@ class _PhaseHeader extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
               child: Row(
                 children: [
-                  Text(emoji),
+                  Icon(emoji, size: 18, color: colorScheme.primary),
                   const SizedBox(width: 12),
                   Text(
                     '$title · $completedCount/$totalCount',

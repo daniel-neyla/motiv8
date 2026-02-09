@@ -6,11 +6,13 @@ import 'package:motiv8/models/day_review.dart';
 class CloseDayButton extends StatelessWidget {
   final DayReview review;
   final List<Task> unfinishedTasks;
+  final VoidCallback onCloseDay;
 
   const CloseDayButton({
     super.key,
     required this.review,
     required this.unfinishedTasks,
+    required this.onCloseDay,
   });
 
   @override
@@ -24,20 +26,23 @@ class CloseDayButton extends StatelessWidget {
           context: context,
           isScrollControlled: true,
           backgroundColor: Colors.transparent,
-          builder: (_) =>
-              CloseDayOverlay(review: review, unfinishedTasks: unfinishedTasks),
+          builder: (_) => CloseDayOverlay(
+            review: review,
+            unfinishedTasks: unfinishedTasks,
+            onCloseDay: onCloseDay,
+          ),
         );
       },
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
-          border: Border(
-            top: BorderSide(
-              color: Theme.of(context).dividerColor.withAlpha(100),
-              width: 1.5,
-            ),
+
+          border: Border.all(
+            color: colorScheme.outlineVariant.withAlpha(100),
+            width: 1.5,
           ),
+          borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

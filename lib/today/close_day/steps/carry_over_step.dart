@@ -16,13 +16,14 @@ class CarryOverStep extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Text(
+        //   'What would you like to carry forward?',
+        //   style: Theme.of(context).textTheme.titleMedium,
+        // ),
+        // const SizedBox(height: 8),
         Text(
+          // 'Decide what deserves your energy tomorrow.',
           'What would you like to carry forward?',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Decide what deserves your energy tomorrow.',
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
           ),

@@ -12,6 +12,7 @@ class TodayOpenView extends StatefulWidget {
   final List<Task> tasks;
   final Function(String) toggleTask;
   final Function(String) quickAddTask;
+  final VoidCallback onCloseDay;
 
   final DayReview review;
   const TodayOpenView({
@@ -20,7 +21,7 @@ class TodayOpenView extends StatefulWidget {
     required this.tasks,
     required this.toggleTask,
     required this.quickAddTask,
-
+    required this.onCloseDay,
     required this.review,
   });
   @override
@@ -81,6 +82,7 @@ class _TodayOpenViewState extends State<TodayOpenView> {
         padding: EdgeInsets.symmetric(horizontal: 18),
         child: CustomScrollView(
           controller: _scrollController,
+          physics: BouncingScrollPhysics(),
           slivers: [
             SliverToBoxAdapter(child: SizedBox(height: 24)),
             SliverToBoxAdapter(child: const GreetingMessage()),
@@ -106,6 +108,7 @@ class _TodayOpenViewState extends State<TodayOpenView> {
               sliver: SliverToBoxAdapter(
                 child: CloseDayButton(
                   review: widget.review,
+                  onCloseDay: widget.onCloseDay,
 
                   unfinishedTasks: widget.tasks
                       .where((t) => !t.completed)

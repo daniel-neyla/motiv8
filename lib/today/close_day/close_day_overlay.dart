@@ -11,10 +11,12 @@ import 'steps/carry_over_step.dart';
 class CloseDayOverlay extends StatefulWidget {
   final DayReview review;
   final List<Task> unfinishedTasks;
+  final VoidCallback onCloseDay;
   const CloseDayOverlay({
     super.key,
     required this.review,
     required this.unfinishedTasks,
+    required this.onCloseDay,
   });
 
   @override
@@ -56,17 +58,8 @@ class _CloseDayOverlay extends State<CloseDayOverlay> {
     ),
   ];
 
-  void next() {
-    if (currentStep < 3) {
-      setState(() => currentStep++);
-    } else {
-      Navigator.pop(context);
-    }
-  }
-
-  void skip() => next();
-
   void close() {
+    widget.onCloseDay();
     Navigator.of(context).pop();
   }
 
@@ -121,7 +114,6 @@ class _CloseDayOverlay extends State<CloseDayOverlay> {
                 Expanded(child: _buildStep()),
 
                 _Footer(
-                  onNext: next,
                   currentStep: currentStep,
                   numOfSteps: steps.length,
                   onClose: close,
@@ -218,14 +210,12 @@ class _Header extends StatelessWidget {
 }
 
 class _Footer extends StatelessWidget {
-  final VoidCallback onNext;
   final int currentStep;
   final int numOfSteps;
   final VoidCallback onClose;
   final VoidCallback onIncrementStep;
   final VoidCallback onDecrementStep;
   const _Footer({
-    required this.onNext,
     required this.currentStep,
     required this.numOfSteps,
     required this.onClose,

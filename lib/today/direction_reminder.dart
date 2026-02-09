@@ -76,7 +76,7 @@ class DirectionReminder extends StatelessWidget {
                                             .textTheme
                                             .bodyMedium
                                             ?.color
-                                            ?.withValues(alpha: 0.7),
+                                            ?.withValues(alpha: 0.6),
                                       ),
                                 ),
                               ],

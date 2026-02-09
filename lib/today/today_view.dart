@@ -4,7 +4,6 @@ import '../models/task.dart';
 import '../utils/day_phase.dart';
 import '../models/day_review.dart';
 import '../content/quotes/quotes_service.dart';
-import 'today_closed_view.dart';
 import 'today_open_view.dart';
 
 enum TodayStatus { open, closed }
@@ -20,6 +19,12 @@ class _TodayViewState extends State<TodayView> {
   int taskId = 5;
   TodayStatus todayStatus = TodayStatus.open;
   bool isCloseDayOverlayOpen = false;
+
+  void closeDay() {
+    setState(() {
+      todayStatus = TodayStatus.closed;
+    });
+  }
 
   int generateId() {
     return taskId++;
@@ -126,6 +131,7 @@ class _TodayViewState extends State<TodayView> {
             goals: goals,
             toggleTask: toggleTask,
             quickAddTask: quickAddTask,
+            onCloseDay: closeDay,
 
             review: buildDayReview(tasks),
           )

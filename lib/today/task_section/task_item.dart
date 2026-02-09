@@ -26,7 +26,7 @@ class TaskItem extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: colorScheme.surface,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(8),
 
         border: Border.all(color: colorScheme.onSurface.withAlpha(30)),
