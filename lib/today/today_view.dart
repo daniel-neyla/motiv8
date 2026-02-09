@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../models/goal.dart';
+import '../state/goals_controller.dart';
 import '../models/task.dart';
+import 'package:provider/provider.dart';
 import '../utils/day_phase.dart';
 import '../models/day_review.dart';
 import '../content/quotes/quotes_service.dart';
@@ -29,20 +30,6 @@ class _TodayViewState extends State<TodayView> {
   int generateId() {
     return taskId++;
   }
-
-  List<Goal> goals = [
-    Goal(
-      '1',
-      'Build Motiv8',
-      'To create a system that helps me grow without pressure.',
-    ),
-    Goal(
-      '2',
-      'Exercise regularly',
-      'To improve my physical and mental health.',
-    ),
-    Goal('3', 'Read more books', 'To expand my knowledge and perspective.'),
-  ];
 
   List<Task> tasks = [
     Task(
@@ -125,6 +112,7 @@ class _TodayViewState extends State<TodayView> {
 
   @override
   Widget build(BuildContext context) {
+    final goals = context.watch<GoalsController>().goals;
     return todayStatus == TodayStatus.open
         ? TodayOpenView(
             tasks: tasks,

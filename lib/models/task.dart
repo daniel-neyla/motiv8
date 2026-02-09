@@ -6,6 +6,8 @@ class Task {
   final bool completed;
   final DayPhase dayPhase;
   final int order;
+  final String? goalId;
+  final String? milestoneId;
 
   Task({
     required this.id,
@@ -13,6 +15,8 @@ class Task {
     required this.completed,
     required this.dayPhase,
     required this.order,
+    this.goalId,
+    this.milestoneId,
   });
 
   Task copyWith({
