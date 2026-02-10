@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'bottom_nav_bar.dart';
 import '../growth/growth_page.dart';
 import 'package:motiv8/today/today_view.dart';
+import 'quick_add_page.dart';
+import '../growth/widgets/create_habit_popover.dart';
+import '../growth/widgets/create_goal_popover.dart';
 
 class AppScaffold extends StatefulWidget {
   const AppScaffold({super.key});
@@ -13,8 +16,31 @@ class AppScaffold extends StatefulWidget {
 class _AppScaffoldState extends State<AppScaffold> {
   int activeIndex = 0;
   void onAdd() {
-    // void add task overlay
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => QuickAddPage(
+        onAddHabit: () {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (context) => const CreateHabitPopover(),
+          );
+        },
+        onAddGoal: () {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (context) => const CreateGoalPopover(),
+          );
+        },
+      ),
+    );
   }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
