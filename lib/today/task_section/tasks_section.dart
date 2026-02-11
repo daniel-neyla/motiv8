@@ -8,12 +8,13 @@ class TasksSection extends StatefulWidget {
   const TasksSection({
     super.key,
     required this.tasks,
+    required this.onSubmitTask,
     required this.onToggleTask,
-    required this.onSubmit,
   });
-  final void Function(String) onToggleTask;
-  final void Function(String) onSubmit;
+
   final List<Task> tasks;
+  final void Function(String title) onSubmitTask;
+  final void Function(String taskId) onToggleTask;
 
   @override
   State<TasksSection> createState() => _TasksSectionState();
@@ -113,11 +114,12 @@ class _TasksSectionState extends State<TasksSection> {
             task: widget.tasks.firstWhere((t) => t.id == activeTaskId),
             onClear: clearActiveTask,
           ),
+        SizedBox(height: 12),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Opacity(
-              opacity: 0.6,
+              opacity: 0.8,
               child: Text(
                 widget.tasks.every((task) => task.completed)
                     ? 'All done for today! 🎉'
@@ -158,45 +160,48 @@ class _TasksSectionState extends State<TasksSection> {
         DayPhaseSection(
           title: 'Morning',
           dayPhase: DayPhase.morning,
-          emoji: '☀️',
+          emoji: Icons.wb_twilight_outlined,
           tasks: widget.tasks
               .where((task) => task.dayPhase == DayPhase.morning)
               .toList(),
-          onToggleTask: widget.onToggleTask,
+
           isEditingTasks: isEditingTasks,
           onTaskDropped: handleTaskDropped,
           onToggleActive: toggleTask,
           activeTaskId: activeTaskId,
+          onToggleTask: widget.onToggleTask,
         ),
         DayPhaseSection(
           title: 'Afternoon',
 
           dayPhase: DayPhase.afternoon,
-          emoji: '🌤️',
+          emoji: Icons.wb_sunny_outlined,
           tasks: widget.tasks
               .where((task) => task.dayPhase == DayPhase.afternoon)
               .toList(),
-          onToggleTask: widget.onToggleTask,
+
           isEditingTasks: isEditingTasks,
           onTaskDropped: handleTaskDropped,
           onToggleActive: toggleTask,
           activeTaskId: activeTaskId,
+          onToggleTask: widget.onToggleTask,
         ),
         DayPhaseSection(
           title: 'Evening',
-          emoji: '🌙',
+          emoji: Icons.bedtime_outlined,
           dayPhase: DayPhase.evening,
           tasks: widget.tasks
               .where((task) => task.dayPhase == DayPhase.evening)
               .toList(),
-          onToggleTask: widget.onToggleTask,
+
           isEditingTasks: isEditingTasks,
           onTaskDropped: handleTaskDropped,
           onToggleActive: toggleTask,
           activeTaskId: activeTaskId,
+          onToggleTask: widget.onToggleTask,
         ),
         SizedBox(height: 16),
-        AddTaskButton(onSubmit: widget.onSubmit),
+        AddTaskButton(onSubmit: widget.onSubmitTask),
         SizedBox(height: 16),
       ],
     );

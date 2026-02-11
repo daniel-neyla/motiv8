@@ -10,18 +10,19 @@ import '../models/day_review.dart';
 class TodayOpenView extends StatefulWidget {
   final List<Goal> goals;
   final List<Task> tasks;
-  final Function(String) toggleTask;
-  final Function(String) quickAddTask;
 
+  final VoidCallback onCloseDay;
+  final void Function(String title) onSubmitTask;
+  final void Function(String taskId) onToggleTask;
   final DayReview review;
   const TodayOpenView({
     super.key,
     required this.goals,
     required this.tasks,
-    required this.toggleTask,
-    required this.quickAddTask,
-
+    required this.onSubmitTask,
+    required this.onCloseDay,
     required this.review,
+    required this.onToggleTask,
   });
   @override
   State<TodayOpenView> createState() => _TodayOpenViewState();
@@ -76,46 +77,40 @@ class _TodayOpenViewState extends State<TodayOpenView> {
   }
 
   Widget todayOpenContent() {
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 18),
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            SliverToBoxAdapter(child: SizedBox(height: 24)),
-            SliverToBoxAdapter(child: const GreetingMessage()),
-            SliverToBoxAdapter(child: SizedBox(height: 12)),
-            SliverToBoxAdapter(
-              child: AnimatedOpacity(
-                duration: Duration(milliseconds: 200),
-                opacity: _directionOpacity,
-                child: DirectionReminder(goals: widget.goals),
-              ),
-            ),
-            SliverToBoxAdapter(child: SizedBox(height: 24)),
-            SliverToBoxAdapter(
-              child: TasksSection(
-                tasks: widget.tasks,
-                onToggleTask: widget.toggleTask,
-                onSubmit: widget.quickAddTask,
-              ),
-            ),
-
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(vertical: 24.0),
-              sliver: SliverToBoxAdapter(
-                child: CloseDayButton(
-                  review: widget.review,
-
-                  unfinishedTasks: widget.tasks
-                      .where((t) => !t.completed)
-                      .toList(),
-                ),
-              ),
-            ),
-          ],
+    return CustomScrollView(
+      controller: _scrollController,
+      physics: BouncingScrollPhysics(),
+      slivers: [
+        SliverToBoxAdapter(child: const GreetingMessage()),
+        SliverToBoxAdapter(child: SizedBox(height: 12)),
+        SliverToBoxAdapter(
+          child: AnimatedOpacity(
+            duration: Duration(milliseconds: 200),
+            opacity: _directionOpacity,
+            child: DirectionReminder(goals: widget.goals),
+          ),
         ),
-      ),
+        SliverToBoxAdapter(child: SizedBox(height: 24)),
+        SliverToBoxAdapter(
+          child: TasksSection(
+            tasks: widget.tasks,
+            onSubmitTask: widget.onSubmitTask,
+            onToggleTask: widget.onToggleTask,
+          ),
+        ),
+
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(vertical: 24.0),
+          sliver: SliverToBoxAdapter(
+            child: CloseDayButton(
+              review: widget.review,
+              onCloseDay: widget.onCloseDay,
+
+              unfinishedTasks: widget.tasks.where((t) => !t.completed).toList(),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

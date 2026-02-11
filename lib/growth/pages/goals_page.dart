@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
-import '../models/goal_dummy.dart';
+import '../../models/goal.dart';
+import 'package:provider/provider.dart';
+import '../../state/goals_controller.dart';
+import '../../state/tasks_controller.dart';
+import 'goal_detail_page/goals_detail_page.dart';
 
 class GoalsPage extends StatelessWidget {
   const GoalsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final goals = context.watch<GoalsController>().goals;
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: const Color(0xFFF9F9F9),
+      backgroundColor: colorScheme.surface,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
+        forceMaterialTransparency: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
@@ -18,15 +28,7 @@ class GoalsPage extends StatelessWidget {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Goals',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                fontFamily: 'Serif',
-              ),
-            ),
+            Text('Goals', style: textTheme.titleLarge),
             Text(
               'Your paths forward',
               style: TextStyle(
@@ -49,11 +51,21 @@ class GoalsPage extends StatelessWidget {
         ],
       ),
       body: ListView.builder(
-        padding: const EdgeInsets.all(20),
-        itemCount: dummyGoals.length,
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        itemCount: goals.length,
         itemBuilder: (context, index) {
-          final goal = dummyGoals[index];
-          return _GoalDetailCard(goal: goal);
+          final goal = goals[index];
+          return InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => GoalDetailPage(goalId: goal.id),
+                ),
+              );
+            },
+            child: _GoalDetailCard(goal: goal),
+          );
         },
       ),
     );
@@ -61,9 +73,17 @@ class GoalsPage extends StatelessWidget {
 }
 
 class _GoalDetailCard extends StatelessWidget {
-  final GrowthGoal goal;
+  final Goal goal;
 
   const _GoalDetailCard({required this.goal});
+
+  double get progress {
+    if (goal.milestones.isEmpty) return 0.0;
+    final completedMilestones = goal.milestones
+        .where((m) => TasksController().isMilestoneCompleted(m.id))
+        .length;
+    return completedMilestones / goal.milestones.length;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,8 +134,11 @@ class _GoalDetailCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 4),
+
                       Text(
-                        goal.description,
+                        goal.description ?? '',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(color: Colors.grey[600], height: 1.4),
                       ),
                     ],
@@ -139,7 +162,7 @@ class _GoalDetailCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${(goal.progress * 100).toInt()}%',
+                  '${(progress * 100).toInt()}%',
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
@@ -152,7 +175,7 @@ class _GoalDetailCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(4),
               child: LinearProgressIndicator(
-                value: goal.progress,
+                value: progress,
                 minHeight: 8,
                 backgroundColor: const Color(0xFFEFEBE4), // Beige-ish grey
                 valueColor: const AlwaysStoppedAnimation<Color>(
@@ -175,7 +198,9 @@ class _GoalDetailCard extends StatelessWidget {
             const SizedBox(height: 12),
             ...List.generate(goal.milestones.length, (index) {
               final milestone = goal.milestones[index];
-              final isCompleted = goal.milestoneCompletion[index];
+              final isCompleted = TasksController().isMilestoneCompleted(
+                milestone.id,
+              );
               return Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: Row(
@@ -192,7 +217,7 @@ class _GoalDetailCard extends StatelessWidget {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        milestone,
+                        milestone.title,
                         style: TextStyle(
                           decoration: isCompleted
                               ? TextDecoration.lineThrough
@@ -220,7 +245,7 @@ class _GoalDetailCard extends StatelessWidget {
             Divider(height: 32, color: Colors.grey[200]),
 
             Text(
-              '4 tasks remaining', // Hardcoded for visual matching
+              '${TasksController().remainingTasksForGoal(goal.id)} tasks remaining', // Hardcoded for visual matching
               style: TextStyle(color: Colors.grey[500], fontSize: 13),
             ),
           ],

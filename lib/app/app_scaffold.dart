@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'bottom_nav_bar.dart';
-import '../growth/growth_page.dart';
+import '../growth/growth_navigator.dart';
 import 'package:motiv8/today/today_view.dart';
 import 'quick_add_page.dart';
 import '../growth/widgets/create_habit_popover.dart';
@@ -43,9 +44,9 @@ class _AppScaffoldState extends State<AppScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: colorScheme.surface,
+      // backgroundColor: colorScheme.surface,
+      backgroundColor: const Color(0xFFF9F9F9),
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text('Motiv8', style: Theme.of(context).textTheme.titleLarge),
@@ -61,9 +62,15 @@ class _AppScaffoldState extends State<AppScaffold> {
           ),
         ),
       ),
-      body: IndexedStack(
-        index: activeIndex,
-        children: const [TodayView(), GrowthPage()],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+          child: IndexedStack(
+            index: activeIndex,
+
+            children: const [TodayView(), GrowthNavigator()],
+          ),
+        ),
       ),
 
       bottomNavigationBar: BottomNavBar(

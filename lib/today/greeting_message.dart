@@ -34,11 +34,11 @@ class GreetingMessage extends StatelessWidget {
     }
   }
 
-  String _getEmoji() {
+  IconData _getIcon() {
     final hour = DateTime.now().hour;
-    if (hour < 12) return '☀️';
-    if (hour < 18) return '🌤️';
-    return '🌙';
+    if (hour < 12) return Icons.wb_twilight_outlined;
+    if (hour < 18) return Icons.wb_sunny_outlined;
+    return Icons.bedtime_outlined;
   }
 
   @override
@@ -46,14 +46,25 @@ class GreetingMessage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '${_getGreeeting()}, Daniel. ${_getEmoji()}',
-          style: Theme.of(context).textTheme.headlineMedium,
+        Row(
+          children: [
+            Icon(
+              _getIcon(),
+              color: Theme.of(context).colorScheme.primary,
+              size: 28,
+            ),
+            const SizedBox(width: 12),
+            Text(
+              '${_getGreeeting()}, Daniel.',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+          ],
         ),
-        const SizedBox(height: 4),
+
+        const SizedBox(height: 8),
         Text(
           'Here is your ${_getWeekday()}.',
-          style: Theme.of(context).textTheme.bodyMedium,
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
       ],
     );

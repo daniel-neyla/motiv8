@@ -11,10 +11,12 @@ import 'steps/carry_over_step.dart';
 class CloseDayOverlay extends StatefulWidget {
   final DayReview review;
   final List<Task> unfinishedTasks;
+  final VoidCallback onCloseDay;
   const CloseDayOverlay({
     super.key,
     required this.review,
     required this.unfinishedTasks,
+    required this.onCloseDay,
   });
 
   @override
@@ -56,17 +58,11 @@ class _CloseDayOverlay extends State<CloseDayOverlay> {
     ),
   ];
 
-  void next() {
-    if (currentStep < 3) {
-      setState(() => currentStep++);
-    } else {
-      Navigator.pop(context);
+  void close(bool done) {
+    if (done) {
+      widget.onCloseDay();
     }
-  }
 
-  void skip() => next();
-
-  void close() {
     Navigator.of(context).pop();
   }
 
@@ -121,7 +117,6 @@ class _CloseDayOverlay extends State<CloseDayOverlay> {
                 Expanded(child: _buildStep()),
 
                 _Footer(
-                  onNext: next,
                   currentStep: currentStep,
                   numOfSteps: steps.length,
                   onClose: close,
@@ -153,7 +148,7 @@ class _CloseDayOverlay extends State<CloseDayOverlay> {
 //           child:
 
 class _CloseButton extends StatelessWidget {
-  final VoidCallback onClose;
+  final dynamic onClose;
 
   const _CloseButton({required this.onClose});
 
@@ -165,7 +160,7 @@ class _CloseButton extends StatelessWidget {
       elevation: 0,
       child: IconButton(
         icon: const Icon(Icons.close),
-        onPressed: onClose,
+        onPressed: () => onClose(false),
         color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
       ),
     );
@@ -218,14 +213,12 @@ class _Header extends StatelessWidget {
 }
 
 class _Footer extends StatelessWidget {
-  final VoidCallback onNext;
   final int currentStep;
   final int numOfSteps;
-  final VoidCallback onClose;
+  final dynamic onClose;
   final VoidCallback onIncrementStep;
   final VoidCallback onDecrementStep;
   const _Footer({
-    required this.onNext,
     required this.currentStep,
     required this.numOfSteps,
     required this.onClose,
@@ -254,7 +247,7 @@ class _Footer extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               if (currentStep == numOfSteps - 1) {
-                onClose();
+                onClose(true);
               } else {
                 onIncrementStep();
               }

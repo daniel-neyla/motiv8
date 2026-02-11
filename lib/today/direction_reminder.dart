@@ -54,6 +54,11 @@ class DirectionReminder extends StatelessWidget {
                   const SizedBox(height: 12),
                   if (hasGoals)
                     ...goals
+                        .where(
+                          (goal) =>
+                              goal.direction != null &&
+                              goal.direction!.isNotEmpty,
+                        )
                         .take(numberOfGoalsToShow)
                         .map(
                           (goal) => Padding(
@@ -69,14 +74,14 @@ class DirectionReminder extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  goal.direction,
+                                  goal.direction!,
                                   style: Theme.of(context).textTheme.bodyMedium
                                       ?.copyWith(
                                         color: Theme.of(context)
                                             .textTheme
                                             .bodyMedium
                                             ?.color
-                                            ?.withValues(alpha: 0.7),
+                                            ?.withValues(alpha: 0.6),
                                       ),
                                 ),
                               ],

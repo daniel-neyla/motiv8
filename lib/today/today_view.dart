@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import '../models/goal.dart';
+import '../state/goals_controller.dart';
+import '../state/tasks_controller.dart';
 import '../models/task.dart';
+import 'package:provider/provider.dart';
 import '../utils/day_phase.dart';
 import '../models/day_review.dart';
 import '../content/quotes/quotes_service.dart';
-import 'today_closed_view.dart';
 import 'today_open_view.dart';
 
 enum TodayStatus { open, closed }
@@ -21,54 +22,11 @@ class _TodayViewState extends State<TodayView> {
   TodayStatus todayStatus = TodayStatus.open;
   bool isCloseDayOverlayOpen = false;
 
-  int generateId() {
-    return taskId++;
+  void closeDay() {
+    setState(() {
+      todayStatus = TodayStatus.closed;
+    });
   }
-
-  List<Goal> goals = [
-    Goal(
-      '1',
-      'Build Motiv8',
-      'To create a system that helps me grow without pressure.',
-    ),
-    Goal(
-      '2',
-      'Exercise regularly',
-      'To improve my physical and mental health.',
-    ),
-    Goal('3', 'Read more books', 'To expand my knowledge and perspective.'),
-  ];
-
-  List<Task> tasks = [
-    Task(
-      id: '1',
-      title: 'Meditate',
-      completed: true,
-      dayPhase: DayPhase.morning,
-      order: 1,
-    ),
-    Task(
-      id: '2',
-      title: 'Read',
-      completed: false,
-      dayPhase: DayPhase.afternoon,
-      order: 2,
-    ),
-    Task(
-      id: '3',
-      title: 'Exercise',
-      completed: false,
-      dayPhase: DayPhase.afternoon,
-      order: 1,
-    ),
-    Task(
-      id: '4',
-      title: 'Journal',
-      completed: true,
-      dayPhase: DayPhase.evening,
-      order: 1,
-    ),
-  ];
 
   DayReview buildDayReview(List<Task> tasks) {
     final completed = tasks.where((t) => t.completed).toList();
@@ -92,40 +50,18 @@ class _TodayViewState extends State<TodayView> {
     );
   }
 
-  void toggleTask(String taskId) {
-    setState(() {
-      tasks = tasks.map((task) {
-        if (task.id == taskId) {
-          return task.copyWith(completed: !task.completed);
-        }
-        return task;
-      }).toList();
-    });
-  }
-
-  void quickAddTask(String title) {
-    setState(() {
-      final DayPhase currentDayPhase = getCurrentDayPhase(DateTime.now());
-      tasks.add(
-        Task(
-          id: generateId().toString(),
-          title: title,
-          completed: false,
-          dayPhase: currentDayPhase,
-          order: tasks.where((t) => t.dayPhase == currentDayPhase).length + 1,
-        ),
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final goals = context.watch<GoalsController>().goals;
+    final tasksController = context.watch<TasksController>();
+    final tasks = tasksController.tasks;
     return todayStatus == TodayStatus.open
         ? TodayOpenView(
             tasks: tasks,
             goals: goals,
-            toggleTask: toggleTask,
-            quickAddTask: quickAddTask,
+            onToggleTask: tasksController.toggleTask,
+            onSubmitTask: tasksController.addTask,
+            onCloseDay: closeDay,
 
             review: buildDayReview(tasks),
           )

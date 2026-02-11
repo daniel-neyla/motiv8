@@ -90,7 +90,7 @@ class _MoodGrid extends StatelessWidget {
       children: moods.map((mood) {
         final index = moods.indexOf(mood);
         return SizedBox(
-          width: 96,
+          width: 100,
           child: _MoodTile(
             mood: mood,
             description: moodDescriptions[index],
