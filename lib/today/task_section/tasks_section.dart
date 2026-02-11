@@ -8,12 +8,13 @@ class TasksSection extends StatefulWidget {
   const TasksSection({
     super.key,
     required this.tasks,
+    required this.onSubmitTask,
     required this.onToggleTask,
-    required this.onSubmit,
   });
-  final void Function(String) onToggleTask;
-  final void Function(String) onSubmit;
+
   final List<Task> tasks;
+  final void Function(String title) onSubmitTask;
+  final void Function(String taskId) onToggleTask;
 
   @override
   State<TasksSection> createState() => _TasksSectionState();
@@ -163,11 +164,12 @@ class _TasksSectionState extends State<TasksSection> {
           tasks: widget.tasks
               .where((task) => task.dayPhase == DayPhase.morning)
               .toList(),
-          onToggleTask: widget.onToggleTask,
+
           isEditingTasks: isEditingTasks,
           onTaskDropped: handleTaskDropped,
           onToggleActive: toggleTask,
           activeTaskId: activeTaskId,
+          onToggleTask: widget.onToggleTask,
         ),
         DayPhaseSection(
           title: 'Afternoon',
@@ -177,11 +179,12 @@ class _TasksSectionState extends State<TasksSection> {
           tasks: widget.tasks
               .where((task) => task.dayPhase == DayPhase.afternoon)
               .toList(),
-          onToggleTask: widget.onToggleTask,
+
           isEditingTasks: isEditingTasks,
           onTaskDropped: handleTaskDropped,
           onToggleActive: toggleTask,
           activeTaskId: activeTaskId,
+          onToggleTask: widget.onToggleTask,
         ),
         DayPhaseSection(
           title: 'Evening',
@@ -190,14 +193,15 @@ class _TasksSectionState extends State<TasksSection> {
           tasks: widget.tasks
               .where((task) => task.dayPhase == DayPhase.evening)
               .toList(),
-          onToggleTask: widget.onToggleTask,
+
           isEditingTasks: isEditingTasks,
           onTaskDropped: handleTaskDropped,
           onToggleActive: toggleTask,
           activeTaskId: activeTaskId,
+          onToggleTask: widget.onToggleTask,
         ),
         SizedBox(height: 16),
-        AddTaskButton(onSubmit: widget.onSubmit),
+        AddTaskButton(onSubmit: widget.onSubmitTask),
         SizedBox(height: 16),
       ],
     );

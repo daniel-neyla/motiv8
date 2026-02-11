@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'bottom_nav_bar.dart';
-import '../growth/growth_page.dart';
+import '../growth/growth_navigator.dart';
 import 'package:motiv8/today/today_view.dart';
 
 class AppScaffold extends StatefulWidget {
@@ -35,10 +36,15 @@ class _AppScaffoldState extends State<AppScaffold> {
           ),
         ),
       ),
-      body: IndexedStack(
-        index: activeIndex,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+          child: IndexedStack(
+            index: activeIndex,
 
-        children: const [TodayView(), GrowthPage()],
+            children: const [TodayView(), GrowthNavigator()],
+          ),
+        ),
       ),
 
       bottomNavigationBar: BottomNavBar(

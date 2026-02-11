@@ -58,8 +58,11 @@ class _CloseDayOverlay extends State<CloseDayOverlay> {
     ),
   ];
 
-  void close() {
-    widget.onCloseDay();
+  void close(bool done) {
+    if (done) {
+      widget.onCloseDay();
+    }
+
     Navigator.of(context).pop();
   }
 
@@ -145,7 +148,7 @@ class _CloseDayOverlay extends State<CloseDayOverlay> {
 //           child:
 
 class _CloseButton extends StatelessWidget {
-  final VoidCallback onClose;
+  final dynamic onClose;
 
   const _CloseButton({required this.onClose});
 
@@ -157,7 +160,7 @@ class _CloseButton extends StatelessWidget {
       elevation: 0,
       child: IconButton(
         icon: const Icon(Icons.close),
-        onPressed: onClose,
+        onPressed: () => onClose(false),
         color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
       ),
     );
@@ -212,7 +215,7 @@ class _Header extends StatelessWidget {
 class _Footer extends StatelessWidget {
   final int currentStep;
   final int numOfSteps;
-  final VoidCallback onClose;
+  final dynamic onClose;
   final VoidCallback onIncrementStep;
   final VoidCallback onDecrementStep;
   const _Footer({
@@ -244,7 +247,7 @@ class _Footer extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               if (currentStep == numOfSteps - 1) {
-                onClose();
+                onClose(true);
               } else {
                 onIncrementStep();
               }

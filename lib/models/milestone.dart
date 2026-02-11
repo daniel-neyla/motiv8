@@ -3,9 +3,9 @@ import 'Task.dart';
 class Milestone {
   final String id;
   final String title;
-  final List<Task> tasks;
+  final String goalId;
 
-  Milestone({required this.id, required this.title, required this.tasks});
+  Milestone({required this.id, required this.title, required this.goalId});
 
-  bool get isCompleted => tasks.isNotEmpty && tasks.every((t) => t.completed);
+  // bool get isCompleted => tasks.isNotEmpty && tasks.every((t) => t.completed);
 }
